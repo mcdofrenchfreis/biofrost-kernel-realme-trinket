@@ -1169,7 +1169,7 @@ out_set_verifier:
 	nfs_set_verifier(dentry, nfs_save_change_attribute(dir));
  out_valid:
 	if (flags & LOOKUP_RCU) {
-		if (parent != ACCESS_ONCE(dentry->d_parent))
+		if (parent != READ_ONCE(dentry->d_parent))
 			return -ECHILD;
 	} else
 		dput(parent);

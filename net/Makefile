@@ -99,3 +99,5 @@ obj-y                  	+= oppo_sla/
 #Add for WeChat lucky money recognition
 obj-y				+= oppo_nf_hooks/
 #endif /* VENDOR_EDIT */
+
+subdir-ccflags-y := -Os

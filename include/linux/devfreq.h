@@ -154,6 +154,8 @@ struct devfreq {
 
 	unsigned long min_freq;
 	unsigned long max_freq;
+	bool is_boost_device;
+	bool max_boost;
 	bool stop_polling;
 
 	/* information for device frequency transition */
@@ -404,6 +406,12 @@ static inline int devfreq_get_limit(struct devfreq *df, unsigned long *min, unsi
         return -EINVAL;
 }
 #endif /* VENDOR_EDIT */
+
+static inline int update_devfreq(struct devfreq *devfreq)
+{
+	return -EINVAL;
+}
+
 #endif /* CONFIG_PM_DEVFREQ */
 
 #endif /* __LINUX_DEVFREQ_H__ */

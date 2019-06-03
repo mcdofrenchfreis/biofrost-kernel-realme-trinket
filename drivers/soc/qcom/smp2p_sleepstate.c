@@ -11,6 +11,7 @@
 #include <linux/of_irq.h>
 #include <linux/of.h>
 #include <linux/pm_wakeup.h>
+#include <linux/delay.h>
 
 #define PROC_AWAKE_ID 12 /* 12th bit */
 #define AWAKE_BIT BIT(PROC_AWAKE_ID)
@@ -35,24 +36,14 @@ static int sleepstate_pm_notifier(struct notifier_block *nb,
 				  unsigned long event, void *unused)
 {
 	switch (event) {
-#ifdef VENDOR_EDIT
-//Bo.Xiang@BSP.Sensor, 2019-08-21, add for ignore non_wakeup sensor notify event wihle ap is going to sleep
-    case PM_SUSPEND_PREPARE:
-        //qcom_smem_state_update_bits(state, AWAKE_BIT, 0);
-        break;
+	case PM_SUSPEND_PREPARE:
+		qcom_smem_state_update_bits(state, AWAKE_BIT, 0);
+		usleep_range(10000, 10500); /* Tuned based on SMP2P latencies */
+		break;
 
-    case PM_POST_SUSPEND:
-        //qcom_smem_state_update_bits(state, AWAKE_BIT, AWAKE_BIT);
-        break;
-#else
-    case PM_SUSPEND_PREPARE:
-        qcom_smem_state_update_bits(state, AWAKE_BIT, 0);
-        break;
-
-    case PM_POST_SUSPEND:
-	    qcom_smem_state_update_bits(state, AWAKE_BIT, AWAKE_BIT);
-        break;
-#endif //VENDOR_EDIT
+	case PM_POST_SUSPEND:
+		qcom_smem_state_update_bits(state, AWAKE_BIT, AWAKE_BIT);
+		break;
 	}
 
 	return NOTIFY_DONE;

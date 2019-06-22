@@ -161,6 +161,9 @@ unsigned int ext4_fsync_enable_status = 0;
 unsigned long sysctl_blkdev_issue_flush_count = 0;
 #endif /*CONFIG_PRODUCT_REALME_TRINKET*/
 
+#ifdef CONFIG_INCREASE_MAXIMUM_SWAPPINESS
+static int max_swappiness = 200;
+#endif
 #ifdef CONFIG_PRINTK
 static int ten_thousand = 10000;
 #endif
@@ -1805,7 +1808,11 @@ static struct ctl_table vm_table[] = {
 		.mode		= 0444,
 		.proc_handler	= proc_dointvec_minmax,
 		.extra1		= &zero,
+#ifdef CONFIG_INCREASE_MAXIMUM_SWAPPINESS
+		.extra2         = &max_swappiness,
+#else
 		.extra2		= &one_hundred,
+#endif
 	},
 	{
 		.procname       = "want_old_faultaround_pte",

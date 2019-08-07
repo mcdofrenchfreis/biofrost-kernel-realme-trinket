@@ -160,7 +160,7 @@ int __init pm_autosleep_init(void)
 	wakelock_printk_control(1);
 #endif /* VENDOR_EDIT */
 
-	autosleep_ws = wakeup_source_register("autosleep");
+	autosleep_ws = wakeup_source_register(NULL, "autosleep");
 	if (!autosleep_ws)
 		return -ENOMEM;
 

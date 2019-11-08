@@ -283,8 +283,8 @@ static int msm_get_updown_migrate(unsigned int *up_migrate,
 				  unsigned int *down_migrate)
 {
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(4,9,0)
-	sched_get_updown_migrate(up_migrate, down_migrate);
-	return 0;
+//	sched_get_updown_migrate(up_migrate, down_migrate);
+//	return 0;
 #else
 	return -ENOTSUPP;
 #endif
@@ -294,8 +294,8 @@ static int msm_set_updown_migrate(unsigned int *up_migrate,
 				  unsigned int *down_migrate)
 {
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(4,9,0)
-	sched_set_updown_migrate(up_migrate, down_migrate);
-	return 0;
+//	sched_set_updown_migrate(up_migrate, down_migrate);
+//	return 0;
 #else
 	return -ENOTSUPP;
 #endif

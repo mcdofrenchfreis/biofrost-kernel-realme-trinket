@@ -819,6 +819,8 @@ __SYSCALL(__NR_pkey_free, sys_pkey_free)
 __SYSCALL(__NR_statx, sys_statx)
 #define __NR_pidfd_open 434
 __SYSCALL(__NR_pidfd_open, sys_pidfd_open)
+#define __NR_process_madvise 440
+__SYSCALL(__NR_process_madvise, sys_process_madvise)
 
 /*
  * Please add new compat syscalls above this comment and update

@@ -43,11 +43,6 @@
 #define CREATE_TRACE_POINTS
 #include <trace/events/trace_msm_pil_event.h>
 
-#ifdef VENDOR_EDIT
-//Yugang.Ma@PSW.MultiMedia.MediaServer, 2019/09/16, Add for record vnus ramdump
-#include <soc/oppo/oppo_kevent_feedback.h>
-#endif /* VENDOR_EDIT */
-
 #include "peripheral-loader.h"
 
 #define pil_err(desc, fmt, ...)						\
@@ -491,7 +486,6 @@ int pil_do_ramdump(struct pil_desc *desc,
 
 #ifdef VENDOR_EDIT
 //Yugang.Ma@PSW.MultiMedia.MediaServer, 2019/09/16, Add for record ramdump
-	unsigned char payload[100] = "";
 	unsigned int hashid;
 	char strHashSource[CAUSENAME_SIZE];
 #endif /*VENDOR_EDIT*/
@@ -578,13 +572,9 @@ int pil_do_ramdump(struct pil_desc *desc,
 	if(strlen(desc->name) > 0 && (strncmp(desc->name,"venus",strlen(desc->name)) == 0)) {
 	    strncpy(strHashSource,desc->name,strlen(desc->name));
 	    hashid = BKDRHash(strHashSource,strlen(strHashSource));
-	    scnprintf(payload, sizeof(payload), "NULL$$EventID@@%d$$EventData@@%d$$PackageName@@%s$$fid@@%u",OPPO_MM_DIRVER_FB_EVENT_ID_VIDEO_DUMP, ret, desc->name, hashid);
-	    upload_mm_kevent_feedback_data(OPPO_MM_DIRVER_FB_EVENT_MODULE_VIDEO,payload);
 	} else if(strlen(desc->name) > 0 && (strncmp(desc->name,"adsp",strlen(desc->name)) == 0)) {
 	    strncpy(strHashSource,desc->name,strlen(desc->name));
 	    hashid = BKDRHash(strHashSource,strlen(strHashSource));
-	    scnprintf(payload, sizeof(payload), "NULL$$EventID@@%d$$EventData@@%d$$PackageName@@%s$$fid@@%u",OPPO_MM_DIRVER_FB_EVENT_ID_ADSP_RESET, ret, desc->name, hashid);
-	    upload_mm_kevent_feedback_data(OPPO_MM_DIRVER_FB_EVENT_MODULE_AUDIO,payload);
 	}
 #endif /* VENDOR_EDIT */
 

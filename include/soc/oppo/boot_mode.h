@@ -38,11 +38,3 @@ extern bool qpnp_is_power_off_charging(void);
 extern bool qpnp_is_charger_reboot(void);
 #endif /*VENDOR_EDIT*/
 #endif  /*_OPPO_BOOT_H*/
-
-#ifdef VENDOR_EDIT
-/*Liang.Zhang@PSW.TECH.BOOTUP 2018/10/16,  Add for kernel monitor whole bootup*/
-#ifdef PHOENIX_PROJECT
-extern bool op_is_monitorable_boot(void);
-#endif
-#endif
-

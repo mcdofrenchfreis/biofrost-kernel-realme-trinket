@@ -614,7 +614,6 @@ static inline unsigned int sched_get_cpu_util(int cpu)
 #ifdef CONFIG_SCHED_WALT
 #ifdef VENDOR_EDIT
 //cuixiaogang@swdp.shanghai, 2018/3/18, export some symbol
-extern int sched_boost(void);
 extern int sched_set_updown_migrate(unsigned int *up_pct, unsigned int *down_pct);
 extern int sched_get_updown_migrate(unsigned int *up_pct, unsigned int *down_pct);
 void sched_boost_disable_all(void);

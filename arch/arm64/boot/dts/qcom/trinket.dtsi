@@ -564,12 +564,6 @@
 			size = <0 0x400000>;
 		};
 
-		dump_mem: mem_dump_region {
-			compatible = "shared-dma-pool";
-			reusable;
-			size = <0 0x400000>;
-		};
-
 		cont_splash_memory: cont_splash_region@5c000000 {
 			reg = <0x0 0x5c000000 0x0 0x00f00000>;
 			label = "cont_splash_region";
@@ -578,6 +572,12 @@
 		dfps_data_memory: dfps_data_region@5cf00000 {
 			reg = <0x0 0x5cf00000 0x0 0x0100000>;
 			label = "dfps_data_region";
+		};
+		
+		dump_mem: mem_dump_region {
+			compatible = "shared-dma-pool";
+			reusable;
+			size = <0 0x400000>;
 		};
 
 		/* global autoconfigured region for contiguous allocations */
@@ -1463,7 +1463,7 @@
 			qcom,dump-id = <0x27>;
 		};
 	};
-
+	
 	mem_dump {
 		compatible = "qcom,mem-dump";
 		memory-region = <&dump_mem>;

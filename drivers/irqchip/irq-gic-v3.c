@@ -598,18 +598,10 @@ static int __gic_populate_rdist(struct redist_region *region, void __iomem *ptr)
 		u64 offset = ptr - region->redist_base;
 		gic_data_rdist_rd_base() = ptr;
 		gic_data_rdist()->phys_base = region->phys_base + offset;
-#ifndef VENDOR_EDIT
-		//Nanwei.Deng@BSP.power.Basic 2018/05/01
-		pr_info("CPU%d: found redistributor %lx region %d:%pa\n",
-			smp_processor_id(), mpidr,
-			(int)(region - gic_data.redist_regions),
-			&gic_data_rdist()->phys_base);
-#else
 		pr_debug("CPU%d: found redistributor %lx region %d:%pa\n",
 			smp_processor_id(), mpidr,
 			(int)(region - gic_data.redist_regions),
 			&gic_data_rdist()->phys_base);
-#endif
 		return 0;
 	}
 

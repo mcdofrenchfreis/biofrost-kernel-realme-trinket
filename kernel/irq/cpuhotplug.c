@@ -210,7 +210,7 @@ void irq_migrate_all_off_this_cpu(void)
 #ifndef VENDOR_EDIT
 //Jacky Zhuo@BSP.CHG.Basic, 2019/11/29  Add for delete log in release version
 		if (affinity_broken) {
-			pr_info_ratelimited("IRQ %u: no longer affine to CPU%u\n",
+			pr_debug_ratelimited("IRQ %u: no longer affine to CPU%u\n",
 					    irq, smp_processor_id());
 		}
 #else

@@ -735,6 +735,12 @@ ARCH_AFLAGS :=
 ARCH_CFLAGS :=
 include arch/$(SRCARCH)/Makefile
 
+GC_FLAGS += -O3 -mcpu=cortex-a75.cortex-a55+crypto+crc
+CL_FLAGS += -O3 -mcpu=cortex-a55+crypto+crc
+
+export GC_FLAGS
+export CL_FLAGS
+
 KBUILD_CFLAGS	+= $(call cc-option,-fno-delete-null-pointer-checks,)
 KBUILD_CFLAGS	+= $(call cc-disable-warning,frame-address,)
 KBUILD_CFLAGS	+= $(call cc-disable-warning, format-truncation)
@@ -748,7 +754,16 @@ else
 ifdef CONFIG_PROFILE_ALL_BRANCHES
 KBUILD_CFLAGS	+= -O3 $(call cc-disable-warning,maybe-uninitialized,)
 else
-KBUILD_CFLAGS   += -O3
+ifeq ($(cc-name),gcc)
+KBUILD_CFLAGS	+= $(GC_FLAGS)
+KBUILD_AFLAGS   += $(GC_FLAGS)
+KBUILD_LDFLAGS  += $(GC_FLAGS)
+endif
+ifeq ($(cc-name),clang)
+KBUILD_CFLAGS	+= $(CL_FLAGS)
+KBUILD_AFLAGS   += $(CL_FLAGS)
+KBUILD_LDFLAGS  += $(CL_FLAGS)
+endif
 endif
 endif
 

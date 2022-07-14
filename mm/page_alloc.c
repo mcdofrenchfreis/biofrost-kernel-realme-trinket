@@ -74,9 +74,6 @@
 #include <asm/tlbflush.h>
 #include <asm/div64.h>
 #include "internal.h"
-#if defined(CONFIG_PRODUCT_REALME_TRINKET) && defined(CONFIG_OPPO_MEM_MONITOR)
-#include <linux/memory_monitor.h>
-#endif /*CONFIG_PRODUCT_REALME_TRINKET*/
 
 atomic_long_t kswapd_waiters = ATOMIC_LONG_INIT(0);
 
@@ -4043,10 +4040,6 @@ __alloc_pages_slowpath(gfp_t gfp_mask, unsigned int order,
 	int reserve_flags;
 	bool woke_kswapd = false;
 	bool used_vmpressure = false;
-#if defined(CONFIG_PRODUCT_REALME_TRINKET) && defined(CONFIG_OPPO_MEM_MONITOR)
-/* Huacai.Zhou@PSW.BSP.Kernel.MM, 2018-07-07, add alloc wait monitor support*/
-	unsigned long oppo_alloc_start = jiffies;
-#endif /*CONFIG_PRODUCT_REALME_TRINKET*/
 	/*
 	 * We also sanity check to catch abuse of atomic reserves being used by
 	 * callers that are not in atomic context.
@@ -4293,10 +4286,6 @@ got_pg:
 	if (!page)
 		warn_alloc(gfp_mask, ac->nodemask,
 				"page allocation failure: order:%u", order);
-#if defined(CONFIG_PRODUCT_REALME_TRINKET) && defined(CONFIG_OPPO_MEM_MONITOR)
-/* Huacai.Zhou@PSW.BSP.Kernel.MM, 2018-07-07, add alloc wait monitor support*/
-	memory_alloc_monitor(gfp_mask, order, jiffies_to_msecs(jiffies - oppo_alloc_start));
-#endif /*CONFIG_PRODUCT_REALME_TRINKET*/
 	return page;
 }
 

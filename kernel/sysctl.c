@@ -140,10 +140,6 @@ static unsigned long zero_ul;
 static unsigned long one_ul = 1;
 static unsigned long long_max = LONG_MAX;
 
-#ifdef CONFIG_PRODUCT_REALME_TRINKET //yixue.ge@PSW.BSP.Kernel.Driver 20170720
-static int two_hundred = 200;
-#endif
-
 static int one_hundred = 100;
 static int one_thousand = 1000;
 #ifdef CONFIG_PRODUCT_REALME_TRINKET

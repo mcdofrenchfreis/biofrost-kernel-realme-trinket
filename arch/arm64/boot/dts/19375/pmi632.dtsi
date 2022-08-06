@@ -144,7 +144,7 @@
 				label = "v_i_parallel_vbat_vdata";
 				qcom,pre-scaling = <1 1>;
 			};
-			// #ifdef VENDOR_EDIT
+			// #ifdef CONFIG_PRODUCT_REALME_TRINKET
 			/* Changan.Zhang@BSP.Kernel.Driver, 2019/12/07, Add for usb connector temperature check */
 			usb_temp1 {
 				reg = <ADC_GPIO1_PU2>;
@@ -156,8 +156,8 @@
 				label = "usb_temp2";
 				qcom,pre-scaling = <1 1>;
 			};
-			// #endif /* VENDOR_EDIT */
-			// #ifdef VENDOR_EDIT
+			// #endif /* CONFIG_PRODUCT_REALME_TRINKET */
+			// #ifdef CONFIG_PRODUCT_REALME_TRINKET
 			/* Weizhi.Chen@BSP.Kernel.Driver, 2019/11/27, Add for adc read for aboard */
 			board_id {
 				reg = <ADC_GPIO2>;
@@ -165,7 +165,7 @@
 				qcom,ratiometric;
 				qcom,pre-scaling = <1 1>;
 			};
-			// #endif /* VENDOR_EDIT */
+			// #endif /* CONFIG_PRODUCT_REALME_TRINKET */
 		};
 
 		pmi632_adc_tm: adc_tm@3500 {
@@ -799,7 +799,7 @@
 		polling-delay = <0>;
 		thermal-governor = "low_limits_cap";
 		thermal-sensors = <&bcl_soc>;
-//#ifdef VENDOR_EDIT
+//#ifdef CONFIG_PRODUCT_REALME_TRINKET
 		status = "disabled";
 //#endif
 		wake-capable-sensor;

@@ -1,6 +1,6 @@
 /***************************************************************
 ** Copyright (C),  2018,  OPPO Mobile Comm Corp.,  Ltd
-** VENDOR_EDIT
+** CONFIG_PRODUCT_REALME_TRINKET
 ** File : dsi_oppo_support.h
 ** Description : display driver private management
 ** Version : 1.0

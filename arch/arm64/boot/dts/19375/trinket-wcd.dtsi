@@ -21,7 +21,7 @@
 
 		wsa_spk_wcd_sd2: msm_cdc_pinctrlr {
 			compatible = "qcom,msm-cdc-pinctrl";
-		/* #ifdef VENDOR_EDIT */
+		/* #ifdef CONFIG_PRODUCT_REALME_TRINKET */
 		/* huanli.chang@PSW.MM.AudioDriver.Machine, 2020/01/13,delect for cam */
 		/*
 			pinctrl-names = "aud_active", "aud_sleep";

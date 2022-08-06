@@ -39,7 +39,7 @@
 			qcom,kpdpwr-sw-debounce;
 			qcom,system-reset;
 			qcom,store-hard-reset-reason;
-			/*#ifdef VENDOR_EDIT*/
+			/*#ifdef CONFIG_PRODUCT_REALME_TRINKET*/
 			//Added by Zhenjian.Jiang@PSW.Bsp.Stability.PMIC add for PMIC wdt,2019-02-23
 			oppo,pmicwd;
 			/*#endif*/

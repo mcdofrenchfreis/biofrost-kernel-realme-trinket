@@ -216,7 +216,7 @@
 			<&clock_gcc GCC_QUPV3_WRAP_0_M_AHB_CLK>,
 			<&clock_gcc GCC_QUPV3_WRAP_0_S_AHB_CLK>;
 		pinctrl-names = "default", "sleep";
-		//#ifdef VENDOR_EDIT
+		//#ifdef CONFIG_PRODUCT_REALME_TRINKET
 		/*Kui.Feng@BSP.TP.Function, 2019/12/10, modify for TP spi*/
 		pinctrl-0 = <&qupv3_se2_spi_active &qupv3_se2_spi_miso_active>;
 		pinctrl-1 = <&qupv3_se2_spi_sleep &qupv3_se2_spi_miso_sleep>;

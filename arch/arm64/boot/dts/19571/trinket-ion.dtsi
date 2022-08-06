@@ -43,7 +43,7 @@
 			memory-region = <&secure_display_memory>;
 			qcom,ion-heap-type = "HYP_CMA";
 		};
-		//#ifdef VENDOR_EDIT
+		//#ifdef CONFIG_PRODUCT_REALME_TRINKET
 		//zhoubo@BSP.Fingerprint.Basic, 2020-03-05, rm for add 30M DDR
 		//qcom,ion-heap@14 { /* SECURE CARVEOUT HEAP */
 		//	reg = <14>;
@@ -53,7 +53,7 @@
 		//		token = <0x20000000>;
 		//	};
 		//};
-		//#endif /* VENDOR_EDIT */
+		//#endif /* CONFIG_PRODUCT_REALME_TRINKET */
 
 		qcom,ion-heap@22 { /* ADSP HEAP */
 			reg = <22>;

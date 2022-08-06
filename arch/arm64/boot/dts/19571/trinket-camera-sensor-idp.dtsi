@@ -47,7 +47,7 @@
 		qcom,cam-vreg-op-mode = <100000>;
 	};
 
-/*#ifdef VENDOR_EDIT */
+/*#ifdef CONFIG_PRODUCT_REALME_TRINKET */
 /* 20191202, added the eeprom nodes for eeprom bringup */
     eeprom0: qcom,eeprom@0 {
         cell-index = <0>;
@@ -240,7 +240,7 @@
     };
 /*#endif */
 
-/*#ifdef VENDOR_EDIT */
+/*#ifdef CONFIG_PRODUCT_REALME_TRINKET */
 /* 20191126, added the camera nodes for sensor bringup (s5kgm1,ov12a10,s5k3p9,s5k4h7,ov8856,gc02m0-mono1,gc02m0-mono2) */
     qcom,camera@0 {
         cell-index = <0>;

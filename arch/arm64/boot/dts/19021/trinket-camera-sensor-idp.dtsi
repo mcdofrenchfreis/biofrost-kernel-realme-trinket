@@ -38,7 +38,7 @@
     };
 
 
-/*#ifdef VENDOR_EDIT */
+/*#ifdef CONFIG_PRODUCT_REALME_TRINKET */
 /* 20190430, added the eeprom nodes for eeprom bringup */
     eeprom0: qcom,eeprom@0 {
         cell-index = <0>;
@@ -234,7 +234,7 @@
 /* 20190430, added the eeprom nodes for eeprom bringup */ 
 
 
-/*#ifdef VENDOR_EDIT */
+/*#ifdef CONFIG_PRODUCT_REALME_TRINKET */
 /* 20190424, added the camera nodes for sensor bringup (ov12a10, s5k4h7, hi846, sp2509v and gc2375h) */ 
     qcom,camera@0 {
         cell-index = <0>;

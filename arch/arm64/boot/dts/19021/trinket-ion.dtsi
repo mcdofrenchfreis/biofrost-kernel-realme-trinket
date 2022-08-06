@@ -44,7 +44,7 @@
 			qcom,ion-heap-type = "HYP_CMA";
 		};
 
-		//#ifdef VENDOR_EDIT
+		//#ifdef CONFIG_PRODUCT_REALME_TRINKET
 		/*huyu@BSP.kernel.mm, 2019/04/02, rm for add 30M DDR*/
 		//qcom,ion-heap@14 { /* SECURE CARVEOUT HEAP */
 		//	reg = <14>;
@@ -54,7 +54,7 @@
 		//		token = <0x20000000>;
 		//	};
 		//};
-		/*#endif VENDOR_EDIT */
+		/*#endif CONFIG_PRODUCT_REALME_TRINKET */
 
 		qcom,ion-heap@22 { /* ADSP HEAP */
 			reg = <22>;

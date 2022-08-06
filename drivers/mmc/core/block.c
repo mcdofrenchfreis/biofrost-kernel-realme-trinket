@@ -1400,10 +1400,10 @@ static int card_busy_detect(struct mmc_card *card, unsigned int timeout_ms,
 	unsigned long timeout = jiffies + msecs_to_jiffies(timeout_ms);
 	int err = 0;
 	u32 status;
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_PRODUCT_REALME_TRINKET
 //yh@PhoneSW.BSP, 2017-1-17, send card changing to RO mode uevent to android layer
 	char *envp[2] = {"sdcard_ro=1", NULL};
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_PRODUCT_REALME_TRINKET */
 	do {
 		err = __mmc_send_status(card, &status, 5);
 		if (err) {
@@ -1431,13 +1431,13 @@ static int card_busy_detect(struct mmc_card *card, unsigned int timeout_ms,
 			pr_err("%s: Card stuck in programming state! %s %s\n",
 				mmc_hostname(card->host),
 				req->rq_disk->disk_name, __func__);
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_PRODUCT_REALME_TRINKET
 //yh@bsp, 2015-10-21 Add for special card compatible
 //yh@PhoneSW.BSP, 2017-1-17, send card changing to RO mode uevent to android layer
 			kobject_uevent_env(
 					&(card->dev.kobj),
 					KOBJ_CHANGE, envp);
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_PRODUCT_REALME_TRINKET */
 			return -ETIMEDOUT;
 		}
 
@@ -2096,7 +2096,7 @@ static enum mmc_blk_status mmc_blk_err_check(struct mmc_card *card,
 
 		err = card_busy_detect(card, MMC_BLK_TIMEOUT_MS, false, req,
 					&gen_err);
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_PRODUCT_REALME_TRINKET
 //Hexiaosen@PSW.BSP. 2019-12-20 Add for special card compatibility
 		if(-ETIMEDOUT == err)
 			card->host->card_stuck_in_programing_status = true;
@@ -4478,7 +4478,7 @@ static int mmc_blk_probe(struct mmc_card *card)
 	/*
 	 * Check that the card supports the command class(es) we need.
 	 */
-#ifndef VENDOR_EDIT
+#ifndef CONFIG_PRODUCT_REALME_TRINKET
 //Hexiaosen@PSW.BSP. 2019-11-11 Add for loading failure for CSD info mismatches the real capability of card when the CSD register is not working.
 	if (!(card->csd.cmdclass & CCC_BLOCK_READ))
 		return -ENODEV;
@@ -4563,7 +4563,7 @@ static int mmc_blk_probe(struct mmc_card *card)
 	return 0;
 }
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_PRODUCT_REALME_TRINKET
 //Chunyi.Mei@PSW.BSP.Storage.Sdcard, 2018-12-10, Add for SD Card device information
 char *capacity_string(struct mmc_card *card){
 	static char cap_str[10] = "unknown";

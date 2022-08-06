@@ -25,13 +25,13 @@
 
 &soc {
 	mtp_batterydata: qcom,battery-data {
-//#ifndef VENDOR_EDIT
+//#ifndef CONFIG_PRODUCT_REALME_TRINKET
 //Yichun.Chen@BSP.CHG.Basic  2018/05/10  Delete for use oppo battery
 //		qcom,batt-id-range-pct = <15>;
 //#else
         qcom,batt-id-range-pct = <19>;
 //#endif
-//#ifndef VENDOR_EDIT
+//#ifndef CONFIG_PRODUCT_REALME_TRINKET
 //Yichun.Chen@BSP.CHG.Basic  2018/05/10  Modify for use oppo battery
 //		#include "qg-batterydata-ascent-3450mah.dtsi"
 //		#include "qg-batterydata-mlp356477-2800mah.dtsi"
@@ -151,7 +151,7 @@
 	qcom,hold-soc-while-full;
 	qcom,linearize-soc;
 	qcom,qg-use-s7-ocv;
-//#ifdef VENDOR_EDIT
+//#ifdef CONFIG_PRODUCT_REALME_TRINKET
 //LiYue@BSP.CHG.Basic, 2019/08/06, add for batt_rm
 	qcom,cl-feedback-on;
 //#endif
@@ -171,7 +171,7 @@
 	qcom,charger-temp-max = <800>;
 	qcom,smb-temp-max = <800>;
 	qcom,auto-recharge-soc = <98>;
-// #ifdef VENDOR_EDIT
+// #ifdef CONFIG_PRODUCT_REALME_TRINKET
 // shifan@bsp.tp 20190917 bugfix for: cannot light up torch when low power
     	// qcom,flash-disable-soc = <10>;
 // #else
@@ -218,7 +218,7 @@
 };
 
 &pm6125_gpios {
-	//#ifndef VENDOR_EDIT
+	//#ifndef CONFIG_PRODUCT_REALME_TRINKET
 	//Yunqing.Zeng@BSP.Kernel.Driver, 2019/04/03, Modify for key adjust.
 	//key_vol_up {
 	//	key_vol_up_default: key_vol_up_default {
@@ -249,7 +249,7 @@
 
 		pinctrl-names = "default";
 
-		//#ifndef VENDOR_EDIT
+		//#ifndef CONFIG_PRODUCT_REALME_TRINKET
 		//Yunqing.Zeng@BSP.Kernel.Driver, 2019/04/03, Modify for key adjust.
 		//pinctrl-0 = <&key_vol_up_default>;
 		//vol_up {
@@ -275,7 +275,7 @@
 		//#endif
 	};
 
-	/*ifdef VENDOR_EDIT*/
+	/*ifdef CONFIG_PRODUCT_REALME_TRINKET*/
 	//Added by Cong.dai@Bsp.Group.Tp for device-info,2019-05-11
 	devinfo {
 		compatible = "oppo-devinfo";
@@ -391,7 +391,7 @@
 };
 
 
-//ifdef VENDOR_EDIT
+//ifdef CONFIG_PRODUCT_REALME_TRINKET
 //guoqiang.jiang@oppo.com,2019.3.27, add new panel modules
 &dsi_oppo19012_himax_83112a_video {
 	qcom,panel-supply-entries = <&dsi_panel_pwr_supply>;
@@ -460,7 +460,7 @@
 	//qcom,platform-lcd-1v8-en-gpio = <&pmi632_gpios 4 0>;
 };
 //endif
-//ifdef VENDOR_EDIT
+//ifdef CONFIG_PRODUCT_REALME_TRINKET
 //guoqiang.jiang@oppo.com,2019.3.27, add baklight ic lm3697
 //liwei.a@PSW.MM.Display.LCD.Stability, 2019.04.27, modify backlight IC i2c from 1 to 7 in T0
 &qupv3_se7_i2c {
@@ -506,7 +506,7 @@
 	//qcom,platform-lcd-1v8-en-gpio = <&pmi632_gpios 4 0>;
 };
 //endif
-//ifdef VENDOR_EDIT
+//ifdef CONFIG_PRODUCT_REALME_TRINKET
 //guoqiang.jiang@oppo.com,2019.3.27, add baklight ic lm3697
 //liwei.a@PSW.MM.Display.LCD.Stability, 2019.04.27, modify backlight IC i2c from 1 to 7 in T0
 &qupv3_se7_i2c {
@@ -518,7 +518,7 @@
 	};
 };
 //endif
-//#ifdef VENDOR_EDIT
+//#ifdef CONFIG_PRODUCT_REALME_TRINKET
 /*Ping.Zhang@BSP.TP.Function, 2019/03/20, add for himax noflash*/
 &qupv3_se2_spi {
 	/* Himax device tree node */

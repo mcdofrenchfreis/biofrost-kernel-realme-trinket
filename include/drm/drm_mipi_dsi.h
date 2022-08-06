@@ -284,7 +284,7 @@ int mipi_dsi_dcs_set_pixel_format(struct mipi_dsi_device *dsi, u8 format);
 int mipi_dsi_dcs_set_tear_scanline(struct mipi_dsi_device *dsi, u16 scanline);
 int mipi_dsi_dcs_set_display_brightness(struct mipi_dsi_device *dsi,
 					u16 brightness);
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_PRODUCT_REALME_TRINKET
 //liwei.a@PSW.MM.Display.LCD.Machine, 2019/05/12, add for setting backlight by dcs
 int oppo_mipi_dsi_dcs_set_display_brightness(struct mipi_dsi_device *dsi,
 					u16 brightness, int is_ili);

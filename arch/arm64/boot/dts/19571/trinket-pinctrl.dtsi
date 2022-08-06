@@ -24,7 +24,7 @@
 		interrupt-parent = <&wakegpio>;
 		#interrupt-cells = <2>;
 
-		/* #ifdef VENDOR_EDIT guorui@BSP.Fingerprint.Basic 2019-10-16 add for fingerprint */
+		/* #ifdef CONFIG_PRODUCT_REALME_TRINKET guorui@BSP.Fingerprint.Basic 2019-10-16 add for fingerprint */
 		oppo_fp_common {
 			gpio_id2_default: gpio_id2_default {
 				mux {
@@ -67,8 +67,8 @@
 				};
 			};
 		};
-		/*#endif VENDOR_EDIT */
-		/* #ifdef VENDOR_EDIT */
+		/*#endif CONFIG_PRODUCT_REALME_TRINKET */
+		/* #ifdef CONFIG_PRODUCT_REALME_TRINKET */
 		/* qiantao@BSP.Kernel.Stability, 2020/02/27, Add for NC gpio */
 		oppo_gpio_dvt_nc: oppo_gpio_dvt_nc {
 			mux {
@@ -91,7 +91,7 @@
 				bias-pull-down;
 			};
 		};
-		/*#endif VENDOR_EDIT */
+		/*#endif CONFIG_PRODUCT_REALME_TRINKET */
 		/* QUPv3_0 SE mappings */
 		/* SE 0 pin mappings */
 		qupv3_se0_i2c_pins: qupv3_se0_i2c_pins {
@@ -149,7 +149,7 @@
 			};
 		};
 
-		/* ifdef VENDOR_EDIT*/
+		/* ifdef CONFIG_PRODUCT_REALME_TRINKET*/
 		/* He.Lu@PSW.MM.AudioDriver.Machine,2019/12/08, Add for bring up homer audio*/
   		awinic_rcv_rst_active: awinic_rcv_rst_active {
 			/* RESET */
@@ -207,7 +207,7 @@
 				output-low;
 			};
 		};
-		/* VENDOR_EDIT */
+		/* CONFIG_PRODUCT_REALME_TRINKET */
 
 		nfc {
 			nfc_int_active: nfc_int_active {
@@ -665,7 +665,7 @@
 		};
 
 		/* SE 2 pin mappings */
-		//#ifdef VENDOR_EDIT
+		//#ifdef CONFIG_PRODUCT_REALME_TRINKET
 		/*Kui.Feng@BSP.TP.Function, 2019/12/10, modify for TP spi*/
 		qupv3_se2_spi_pins: qupv3_se2_spi_pins {
 			qupv3_se2_spi_active: qupv3_se2_spi_active {
@@ -1149,7 +1149,7 @@
 				output-low;
 			};
 		};
-		/*#ifdef VENDOR_EDIT*/
+		/*#ifdef CONFIG_PRODUCT_REALME_TRINKET*/
 		/* huanli.chang@PSW.MM.AudioDriver.Machine, 2019/10/16, Add for smartpa */
 		pri_i2s_sck_ws {
 			pri_i2s_sck_sleep: pri_i2s_sck_sleep {
@@ -1245,7 +1245,7 @@
 				};
 			};
 		};
-		/*#endif VENDOR_EDIT*/
+		/*#endif CONFIG_PRODUCT_REALME_TRINKET*/
 
 		cdc_dmic01_clk_active: dmic01_clk_active {
 			mux {
@@ -1954,7 +1954,7 @@
 			};
 		};
 
-/*#ifdef VENDOR_EDIT */
+/*#ifdef CONFIG_PRODUCT_REALME_TRINKET */
 /* 20191018, Added pin settings for camera (s5kgm1, s5k3p9, hi846, sp2509v) */
         cam_sensor_mclk0_active: cam_sensor_mclk0_active {
             /* MCLK0 */
@@ -1966,7 +1966,7 @@
             config {
                 pins = "gpio35";
                 bias-disable; /* No PULL */
-                /*#ifdef VENDOR_EDIT*/
+                /*#ifdef CONFIG_PRODUCT_REALME_TRINKET*/
                 /*modify by hongbo.dai@camera 20190723, for fix mclk issue*/
                 drive-strength = <6>; /* 2 MA */
                 /*#else*/
@@ -2115,12 +2115,12 @@
             config {
                 pins = "gpio44";
                 bias-disable; /* No PULL */
-                /*ifdef VENDOR_EDIT*/
+                /*ifdef CONFIG_PRODUCT_REALME_TRINKET*/
                 /*Huliang@Camera, 2108629, 2019/7/3, Add for improve MCLK wave shape*/
                 drive-strength = <6>; /* 6 MA */
                 /*else*/
                 /*drive-strength = <2>;*/ /* 2 MA */
-                /*endif*/ /* VENDOR_EDIT */
+                /*endif*/ /* CONFIG_PRODUCT_REALME_TRINKET */
             };
         };
 
@@ -2148,7 +2148,7 @@
             config {
                 pins = "gpio34";
                 bias-disable; /* No PULL */
-                /*#ifdef VENDOR_EDIT*/
+                /*#ifdef CONFIG_PRODUCT_REALME_TRINKET*/
                 /*modify by hongbo.dai@camera 20190723, for fix mclk issue*/
                 drive-strength = <6>; /* 2 MA */
                 /*#else*/
@@ -2210,7 +2210,7 @@
             config {
                 pins = "gpio36";
                 bias-disable; /* No PULL */
-                /*#ifdef VENDOR_EDIT*/
+                /*#ifdef CONFIG_PRODUCT_REALME_TRINKET*/
                 /*modify by hongbo.dai@camera 20190723, for fix mclk issue*/
                 drive-strength = <6>; /* 2 MA */
                 /*#else*/
@@ -2271,7 +2271,7 @@
             config {
                 pins = "gpio36";
                 bias-disable; /* No PULL */
-                /*#ifdef VENDOR_EDIT*/
+                /*#ifdef CONFIG_PRODUCT_REALME_TRINKET*/
                 /*modify by hongbo.dai@camera 20190723, for fix mclk issue*/
                 drive-strength = <6>; /* 2 MA */
                 /*#else*/

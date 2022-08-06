@@ -251,7 +251,7 @@ $(RTIC_DTB): $(INSTALLED_KERNEL_TARGET)
 	touch $(RTIC_DTB)
 
 # Creating a dtb.img once the kernel is compiled if TARGET_KERNEL_APPEND_DTB is set to be false
-# ifndef VENDOR_EDIT
+# ifndef CONFIG_PRODUCT_REALME_TRINKET
 # Weizhi.Chen@BSP.Kernel.Driver, 2019/10/09, Modify for use oppo target defconfig for kernel.
 # $(INSTALLED_DTBIMAGE_TARGET): $(TARGET_PREBUILT_INT_KERNEL) $(INSTALLED_KERNEL_TARGET) $(RTIC_DTB)
 #	$(hide) if [ -d "$(KERNEL_OUT)/arch/$(KERNEL_ARCH)/boot/dts/vendor/" ]; then \
@@ -266,7 +266,7 @@ $(INSTALLED_DTBIMAGE_TARGET): $(TARGET_PREBUILT_INT_KERNEL) $(INSTALLED_KERNEL_T
 		else \
 			cat $(KERNEL_OUT)/arch/$(KERNEL_ARCH)/boot/dts/*/*.dtb $(RTIC_DTB) > $@; \
 		fi
-# endif /* VENDOR_EDIT */
+# endif /* CONFIG_PRODUCT_REALME_TRINKET */
 
 .PHONY: kerneltags
 kerneltags: $(KERNEL_OUT) $(KERNEL_CONFIG)

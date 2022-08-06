@@ -44,7 +44,7 @@
 #define WCD937X_VERSION_1_0 1
 #define WCD937X_VERSION_ENTRY_SIZE 32
 
-//#ifdef VENDOR_EDIT
+//#ifdef CONFIG_PRODUCT_REALME_TRINKET
 //Feng.Zhou@Mutilmedia.AudioDriver, 2019/11/23, Add for bring up spk/rcv
 //extern unsigned char aw87339_spk_audio_kspk(void);
 //extern unsigned char aw87339_rcv_audio_drcv(void);
@@ -59,7 +59,7 @@
 //static const char *const ext_kspk_amp_function[] = { "Off", "On" };
 //static const char *const ext_drcv_amp_function[] = { "Off", "On" };
 //static const char *const ext_drcv_kspk_amp_function[] = { "Off", "On" };
-//#endif /* VENDOR_EDIT */
+//#endif /* CONFIG_PRODUCT_REALME_TRINKET */
 
 enum {
 	CODEC_TX = 0,
@@ -1612,7 +1612,7 @@ static int wcd937x_ear_pa_gain_put(struct snd_kcontrol *kcontrol,
 	return 0;
 }
 
-//#ifdef VENDOR_EDIT
+//#ifdef CONFIG_PRODUCT_REALME_TRINKET
 //Feng.Zhou@Mutilmedia.AudioDriver, 2019/11/23, Add for bring up spk/rcv
 /*static int ext_kspk_amp_get(struct snd_kcontrol *kcontrol,
 				struct snd_ctl_elem_value *ucontrol)
@@ -1688,7 +1688,7 @@ static int ext_drcv_kspk_amp_put(struct snd_kcontrol *kcontrol,
 		ucontrol->value.integer.value[0]);
 	return 0;
 }*/
-//#endif /* VENDOR_EDIT */
+//#endif /* CONFIG_PRODUCT_REALME_TRINKET */
 
 static int wcd937x_get_compander(struct snd_kcontrol *kcontrol,
 				 struct snd_ctl_elem_value *ucontrol)
@@ -1832,7 +1832,7 @@ static const struct soc_enum rx_hph_mode_mux_enum =
 	SOC_ENUM_SINGLE_EXT(ARRAY_SIZE(rx_hph_mode_mux_text),
 			    rx_hph_mode_mux_text);
 
-//#ifdef VENDOR_EDIT
+//#ifdef CONFIG_PRODUCT_REALME_TRINKET
 //Feng.Zhou@Mutilmedia.AudioDriver, 2019/11/23, Add for bring up spk/rcv
 /*
 static const struct soc_enum msm_snd_enum[] = {
@@ -1840,14 +1840,14 @@ static const struct soc_enum msm_snd_enum[] = {
 				ext_kspk_amp_function),
 	SOC_ENUM_SINGLE_EXT(ARRAY_SIZE(ext_drcv_amp_function),
 				ext_drcv_amp_function),
-	#ifdef VENDOR_EDIT
+	#ifdef CONFIG_PRODUCT_REALME_TRINKET
 	//Feng.Zhou@Mutilmedia.AudioDriver, 2019/12/11, Add for putting rcv as spk
 	SOC_ENUM_SINGLE_EXT(ARRAY_SIZE(ext_drcv_kspk_amp_function),
 				ext_drcv_kspk_amp_function),
 	#endif
 };
 */
-//#endif /* VENDOR_EDIT */
+//#endif /* CONFIG_PRODUCT_REALME_TRINKET */
 
 static SOC_ENUM_SINGLE_EXT_DECL(wcd937x_ear_pa_gain_enum,
 				wcd937x_ear_pa_gain_text);
@@ -1861,21 +1861,21 @@ static const struct snd_kcontrol_new wcd937x_snd_controls[] = {
 		wcd937x_get_compander, wcd937x_set_compander),
 	SOC_SINGLE_EXT("HPHR_COMP Switch", SND_SOC_NOPM, 1, 1, 0,
 		wcd937x_get_compander, wcd937x_set_compander),
-//#ifdef VENDOR_EDIT
+//#ifdef CONFIG_PRODUCT_REALME_TRINKET
 	//Feng.Zhou@Mutilmedia.AudioDriver, 2019/11/23, Add for bring up spk/rcv
 	/*
 	SOC_ENUM_EXT("Ext_Speaker_Amp_spkmode", msm_snd_enum[0],
 		ext_kspk_amp_get, ext_kspk_amp_put),
 	SOC_ENUM_EXT("Ext_Receiver_Amp_rcvmode", msm_snd_enum[1],
 		ext_drcv_amp_get, ext_drcv_amp_put),
-	#ifdef VENDOR_EDIT
+	#ifdef CONFIG_PRODUCT_REALME_TRINKET
 	//Feng.Zhou@Mutilmedia.AudioDriver, 2019/12/11, Add for putting rcv as spk
 	SOC_ENUM_EXT("Ext_Receiver_Amp_spkmode", msm_snd_enum[2],
 		ext_drcv_kspk_amp_get, ext_drcv_kspk_amp_put),
 	#endif
 	*/
-	/* VENDOR_EDIT */
-//#endif /* VENDOR_EDIT */
+	/* CONFIG_PRODUCT_REALME_TRINKET */
+//#endif /* CONFIG_PRODUCT_REALME_TRINKET */
 
 	SOC_SINGLE_TLV("HPHL Volume", WCD937X_HPH_L_EN, 0, 20, 1, line_gain),
 	SOC_SINGLE_TLV("HPHR Volume", WCD937X_HPH_R_EN, 0, 20, 1, line_gain),
@@ -1959,7 +1959,7 @@ static const struct snd_kcontrol_new tx_adc2_mux =
 static const struct snd_kcontrol_new rx_rdac3_mux =
 	SOC_DAPM_ENUM("RDAC3_MUX Mux", rdac3_enum);
 
-//#ifdef VENDOR_EDIT
+//#ifdef CONFIG_PRODUCT_REALME_TRINKET
 //Jianqing.Liao@PSW.MM.AudioDriver.Codec, 2019/09/04, Add for AW87339 dapm
 /*static const char * const ext_spkl_text[] = {
 	"Off", "On"
@@ -2042,7 +2042,7 @@ static int aw87339_drcv_enable_rcv_pa(struct snd_soc_dapm_widget *w,
 
 	return 0;
 }*/
-//#endif /* VENDOR_EDIT */
+//#endif /* CONFIG_PRODUCT_REALME_TRINKET */
 
 
 static const struct snd_soc_dapm_widget wcd937x_dapm_widgets[] = {
@@ -2179,7 +2179,7 @@ static const struct snd_soc_dapm_widget wcd937x_dapm_widgets[] = {
 	SND_SOC_DAPM_SPK("Ext PA", ext_spk_pa_enable),
 	//endif ODM_WT_EDIT
 
-//#ifdef VENDOR_EDIT
+//#ifdef CONFIG_PRODUCT_REALME_TRINKET
 //Jianqing.Liao@PSW.MM.AudioDriver.Codec, 2019/09/04, Add for AW87339 dapm
 	//SND_SOC_DAPM_SPK("AW87339 SPKL", aw87339_kspk_enable_rcv_pa),
 	//SND_SOC_DAPM_SPK("AW87339 SPKR", aw87339_kspk_enable_spk_pa),
@@ -2187,7 +2187,7 @@ static const struct snd_soc_dapm_widget wcd937x_dapm_widgets[] = {
 	//SND_SOC_DAPM_MUX("SPKL Switch", SND_SOC_NOPM, 0, 0, &ext_spkl_mux),
 	//SND_SOC_DAPM_MUX("SPKR Switch", SND_SOC_NOPM, 0, 0, &ext_spkr_mux),
 	//SND_SOC_DAPM_MUX("RCV Switch", SND_SOC_NOPM, 0, 0, &ext_rcv_mux),
-//#endif /* VENDOR_EDIT */
+//#endif /* CONFIG_PRODUCT_REALME_TRINKET */
 
 };
 
@@ -2305,11 +2305,11 @@ static const struct snd_soc_dapm_route wcd937x_audio_map[] = {
         {"Ext PA", NULL, "AUX"},
         //endif ODM_WT_EDIT
 
-        //ifdef VENDOR_EDIT
+        //ifdef CONFIG_PRODUCT_REALME_TRINKET
         //Gong.Chen@ODM_WT.mm.audiodriver.Machine, 2019/04/08, Modify for speaker
         //{"SpkrMonoL IN", NULL, "AUX"},
 	//endif ODM_WT_EDIT
-//#ifdef VENDOR_EDIT
+//#ifdef CONFIG_PRODUCT_REALME_TRINKET
 //Jianqing.Liao@PSW.MM.AudioDriver.Codec, 2019/09/04, Add for AW87339 dapm
 	//{"SPKR Switch", "On", "AUX"},
 	//{"AW87339 SPKR", NULL, "SPKR Switch"},
@@ -2321,7 +2321,7 @@ static const struct snd_soc_dapm_route wcd937x_audio_map[] = {
 	{"EAR PGA", NULL, "EAR_RDAC"},
 	{"EAR", NULL, "EAR PGA"},
 
-//#ifdef VENDOR_EDIT
+//#ifdef CONFIG_PRODUCT_REALME_TRINKET
 //Jianqing.Liao@PSW.MM.AudioDriver.Codec, 2019/09/04, Add for AW87339 dapm
 	//{"SPKL Switch", "On", "EAR"},
 	//{"AW87339 SPKL", NULL, "SPKL Switch"},
@@ -2588,7 +2588,7 @@ static int wcd937x_soc_codec_probe(struct snd_soc_codec *codec)
 	//Yue.Li@ODM_WT.mm.audiodriver.Machine, 2020/03/19, Modify for speaker
 	snd_soc_dapm_ignore_suspend(dapm, "Ext PA");
 	//endif ODM_WT_EDIT
-//#ifdef VENDOR_EDIT
+//#ifdef CONFIG_PRODUCT_REALME_TRINKET
 //Jianqing.Liao@PSW.MM.AudioDriver.Codec, 2019/09/04, Add for AW87339 dapm
 	//snd_soc_dapm_ignore_suspend(dapm, "AW87339 SPKL");
 	//snd_soc_dapm_ignore_suspend(dapm, "AW87339 SPKR");
@@ -2993,7 +2993,7 @@ static int wcd937x_bind(struct device *dev)
 	 * soundwire auto enumeration of slave devices as
 	 * as per HW requirement.
 	 */
-	#ifdef VENDOR_EDIT
+	#ifdef CONFIG_PRODUCT_REALME_TRINKET
         /* Wang.kun@MM.AudioDriver.Machine.2156142, 2019/07/18, add for sound card bind */
 	usleep_range(100000, 100010);
 	#endif /* VENDOR EDIT */

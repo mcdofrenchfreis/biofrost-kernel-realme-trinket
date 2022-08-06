@@ -420,7 +420,7 @@ setup_fail:
 	return ret;
 }
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_PRODUCT_REALME_TRINKET
 //Yugang.Ma@PSW.MultiMedia.MediaServer, 2019/09/16, Add for record ramdump
 #define CAUSENAME_SIZE 128
 unsigned int BKDRHash(char* str, unsigned int len)
@@ -439,7 +439,7 @@ unsigned int BKDRHash(char* str, unsigned int len)
 
     return hash;
 }
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_PRODUCT_REALME_TRINKET*/
 
 /**
  * print_aux_minidump_tocs() - Print the ToC for an auxiliary minidump entry
@@ -484,14 +484,14 @@ int pil_do_ramdump(struct pil_desc *desc,
 	struct pil_seg *seg;
 	int count = 0, ret;
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_PRODUCT_REALME_TRINKET
 //Yugang.Ma@PSW.MultiMedia.MediaServer, 2019/09/16, Add for record ramdump
 	unsigned int hashid;
 	char strHashSource[CAUSENAME_SIZE];
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_PRODUCT_REALME_TRINKET*/
 
 	if (desc->minidump_ss) {
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_PRODUCT_REALME_TRINKET
 	//Wentiam.Mai@PSW.NW.EM.1248599, 2018/01/25
 	//Add for customized subsystem ramdump to skip generate dump cause by SAU
 	if (SKIP_GENERATE_RAMDUMP) {
@@ -523,7 +523,7 @@ int pil_do_ramdump(struct pil_desc *desc,
 			(desc->minidump_ss->md_ss_toc_init == true) &&
 			(desc->minidump_ss->md_ss_enable_status ==
 				MD_SS_ENABLED)) {
-			#ifndef VENDOR_EDIT
+			#ifndef CONFIG_PRODUCT_REALME_TRINKET
 			//Wentiam.Mai@PSW.NW.EM.1389836, 2018/05/22
 			//Add for skip mini dump encryption
 			if (desc->minidump_ss->encryption_status ==
@@ -567,7 +567,7 @@ int pil_do_ramdump(struct pil_desc *desc,
 		pil_err(desc, "%s: Ramdump collection failed for subsys %s rc:%d\n",
 				__func__, desc->name, ret);
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_PRODUCT_REALME_TRINKET
 //Yugang.Ma@PSW.MultiMedia.MediaServer, 2019/09/16, Add for record ramdump
 	if(strlen(desc->name) > 0 && (strncmp(desc->name,"venus",strlen(desc->name)) == 0)) {
 	    strncpy(strHashSource,desc->name,strlen(desc->name));
@@ -576,7 +576,7 @@ int pil_do_ramdump(struct pil_desc *desc,
 	    strncpy(strHashSource,desc->name,strlen(desc->name));
 	    hashid = BKDRHash(strHashSource,strlen(strHashSource));
 	}
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_PRODUCT_REALME_TRINKET */
 
 	if (desc->subsys_vmid > 0)
 		ret = pil_assign_mem_to_subsys(desc, priv->region_start,

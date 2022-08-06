@@ -558,7 +558,7 @@
 		qcom,adsp-state = <0>;
 //zhye@BSP.Sensor, 2019-06-10, add for multi adsp fw load
         adsp-firmware = "adsp_v1";
-//#endif//VENDOR_EDIT
+//#endif//CONFIG_PRODUCT_REALME_TRINKET
 	};
 
 	tdm_pri_rx: qcom,msm-dai-tdm-pri-rx {

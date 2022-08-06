@@ -94,7 +94,7 @@
 			};
 
 			bat_therm {
-			//#ifndef VENDOR_EDIT
+			//#ifndef CONFIG_PRODUCT_REALME_TRINKET
 			/* wangchao@ODM.BSP.charge, 2020/1/17, Modify to set 30K pull up for NTC*/
 				//reg = <ADC_BAT_THERM_PU2>;
 			//#else
@@ -149,7 +149,7 @@
 				label = "v_i_parallel_vbat_vdata";
 				qcom,pre-scaling = <1 1>;
 			};
-			// #ifdef VENDOR_EDIT
+			// #ifdef CONFIG_PRODUCT_REALME_TRINKET
 			/* Changan.Zhang@BSP.Kernel.Driver, 2019/12/07, Add for usb connector temperature check */
 			usb_temp1 {
 				reg = <ADC_GPIO1_PU2>;
@@ -161,8 +161,8 @@
 				label = "usb_temp2";
 				qcom,pre-scaling = <1 1>;
 			};
-			// #endif /* VENDOR_EDIT */
-			// #ifdef VENDOR_EDIT
+			// #endif /* CONFIG_PRODUCT_REALME_TRINKET */
+			// #ifdef CONFIG_PRODUCT_REALME_TRINKET
 			/* Weizhi.Chen@BSP.Kernel.Driver, 2019/11/27, Add for adc read for aboard */
 			board_id {
 				reg = <ADC_GPIO2>;
@@ -170,7 +170,7 @@
 				qcom,ratiometric;
 				qcom,pre-scaling = <1 1>;
 			};
-			// #endif /* VENDOR_EDIT */
+			// #endif /* CONFIG_PRODUCT_REALME_TRINKET */
 		};
 
 		pmi632_adc_tm: adc_tm@3500 {
@@ -385,7 +385,7 @@
 			#size-cells = <1>;
 
 			qcom,pmic-revid = <&pmi632_revid>;
-		//#ifndef VENDOR_EDIT
+		//#ifndef CONFIG_PRODUCT_REALME_TRINKET
 		/* wangchao@ODM.BSP.charge, 2020/1/17, Modify to set 30K pull up for NTC*/
 			//io-channels = <&pmi632_vadc ADC_BAT_THERM_PU2>,
 		//#else
@@ -400,15 +400,15 @@
 /*daili hq001217 changed to avoid qg-fifo-done resume end 2019.12.18*/
 			qcom,s3-exit-ibat-ua = <38000>;
 
-			//#ifdef VENDOR_EDIT
+			//#ifdef CONFIG_PRODUCT_REALME_TRINKET
 			/* wangchao@ODM.BSP.charge, 2019/12/10, Add for oppo gauge*/
 			qcom,enable-qpnp-qg;
-			//#endif  /* VENDOR_EDIT */
-			//#ifdef VENDOR_EDIT
+			//#endif  /* CONFIG_PRODUCT_REALME_TRINKET */
+			//#ifdef CONFIG_PRODUCT_REALME_TRINKET
 			/* Liulitian@ODM.BSP.charge, 2020/03/11, Add for 1% hold so long when discharge */
 			qcom,vbatt-cutoff-mv = <3200>;
 			qcom,fvss-enable;
-			//#endif  /* VENDOR_EDIT */
+			//#endif  /* CONFIG_PRODUCT_REALME_TRINKET */
 
 			qcom,qgauge@4800 {
 				status = "okay";
@@ -546,7 +546,7 @@
 			qcom,pmic-revid = <&pmi632_revid>;
 			qcom,voltage-step-ramp;
 
-			//#ifdef VENDOR_EDIT
+			//#ifdef CONFIG_PRODUCT_REALME_TRINKET
 			//liwei.a@MM.Display.LCD.Stability, 2019.05.23, add for time between vsn and vsp when sleep in or power down
 			qcom,pwrdn-delay-ms = <4>; //Possible values are 0, 1, 4, 8.
 			//#endif
@@ -828,7 +828,7 @@
 		polling-delay = <0>;
 		thermal-governor = "low_limits_cap";
 		thermal-sensors = <&bcl_soc>;
-//#ifdef VENDOR_EDIT
+//#ifdef CONFIG_PRODUCT_REALME_TRINKET
 		status = "disabled";
 //#endif
 		wake-capable-sensor;

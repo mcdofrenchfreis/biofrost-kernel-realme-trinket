@@ -145,7 +145,7 @@
 				qcom,pre-scaling = <1 1>;
 			};
 
-//#ifdef VENDOR_EDIT
+//#ifdef CONFIG_PRODUCT_REALME_TRINKET
 /*LiYue@BSP.CHG.Baisc, 2019/07/04, add for usb connector temperature check*/
 // #ifdef ODM_WT_EDIT
 /* Bin2.Zhang@ODM_WT.BSP.Charger.Basic.1941873, 20200405, Remove for 86125 Q */
@@ -213,7 +213,7 @@
 			io-channels = <&pmi632_vadc ADC_USB_IN_V_16>,
 				      <&pmi632_vadc ADC_USB_IN_I>,
 				      <&pmi632_vadc ADC_CHG_TEMP>,
-//#ifdef VENDOR_EDIT
+//#ifdef CONFIG_PRODUCT_REALME_TRINKET
 /*LiYue@BSP.CHG.Basic, 2019/07/04, add for usb connector temperature check*/
 // #ifdef ODM_WT_EDIT
 /* Bin2.Zhang@ODM_WT.BSP.Charger.Basic.1941873, 20200405, Modify for 86125 Q */
@@ -229,7 +229,7 @@
 			io-channel-names = "usb_in_voltage",
 					   "usb_in_current",
 					   "chg_temp",
-//#ifdef VENDOR_EDIT                  
+//#ifdef CONFIG_PRODUCT_REALME_TRINKET                  
 /*LiYue@BSP.CHG.Basic, 2019/07/04, add for usb connector temperature check*/
 // #ifdef ODM_WT_EDIT
 /* Bin2.Zhang@ODM_WT.BSP.Charger.Basic.1941873, 20200405, Modify for 86125 Q */
@@ -242,11 +242,11 @@
 					   "odm_cpu_temp";
 // #endif /* ODM_WT_EDIT */
 //#endif
-//#ifdef VENDOR_EDIT
+//#ifdef CONFIG_PRODUCT_REALME_TRINKET
 /*LiYue@BSP.CHG.Basic, 2019/08/08, disable lpd*/
 			qcom,lpd-disable;
 //#endif
-//#ifdef VENDOR_EDIT /* Jianchao.Shi@BSP.CHG.Basic, 2016/12/26, sjc Add for charging */
+//#ifdef CONFIG_PRODUCT_REALME_TRINKET /* Jianchao.Shi@BSP.CHG.Basic, 2016/12/26, sjc Add for charging */
 			//for smb5:
 			qcom,usb-icl-ua = <2000000>;
 			qcom,fcc-max-ua = <2200000>;
@@ -407,7 +407,7 @@
 			//pinctrl-4 = <&dischg_enable>;
 			//pinctrl-5 = <&dischg_disable>;
 		// #endif /* ODM_WT_EDIT */
-//#endif //VENDOR_EDIT
+//#endif //CONFIG_PRODUCT_REALME_TRINKET
 
 			qcom,chgr@1000 {
 				reg = <0x1000 0x100>;
@@ -562,7 +562,7 @@
 			#size-cells = <1>;
 
 			qcom,pmic-revid = <&pmi632_revid>;
-//#ifdef VENDOR_EDIT
+//#ifdef CONFIG_PRODUCT_REALME_TRINKET
 /* Kun.Zhang@PSW.BSP.CHG  2019-05-16  recognize SDI\ATL\Liwion\Coslight battery with parallel 300k and series 5.1k */
 			qcom,atl_4_45_battery_id_low = <664>;
 			qcom,atl_4_45_battery_id_high = <752>;
@@ -576,19 +576,19 @@
 			qcom,jeita-hard-thresholds_5p1k = <0x5E68 0x72A>;
 //#endif
 
-//#ifdef VENDOR_EDIT
+//#ifdef CONFIG_PRODUCT_REALME_TRINKET
 /* Yichun.Chen  PSW.BSP.CHG  2018-10-11  increase s3 threshold, avoid qg-fifo-done resume pm suspend */
 			qcom,s3-entry-ibat-ua = <18000>;
 			qcom,s3-exit-ibat-ua = <38000>;
 //#endif
-//#ifdef VENDOR_EDIT
+//#ifdef CONFIG_PRODUCT_REALME_TRINKET
 /*LiYue@BSP.CHG.Basic, 2019/07/12, modify for change pull up 30K*/
 			io-channels = <&pmi632_vadc ADC_BAT_THERM_PU1>,
 //#else
 //			io-channels = <&pmi632_vadc ADC_BAT_THERM_PU2>,
 //#endif
 				      <&pmi632_vadc ADC_BAT_ID_PU2>;
-//#ifdef VENDOR_EDIT
+//#ifdef CONFIG_PRODUCT_REALME_TRINKET
 /*LiYue@BSP.CHG.Basic, 2019/07/12, modify for change pull up 30K*/
 			io-channel-names = "bat_therm_30k",
 //#else

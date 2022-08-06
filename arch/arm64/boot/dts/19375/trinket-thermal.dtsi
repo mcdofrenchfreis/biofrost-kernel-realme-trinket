@@ -20,7 +20,7 @@
 		compatible = "qcom,msm-hw-limits";
 		interrupts = <GIC_SPI 37 IRQ_TYPE_LEVEL_HIGH>;
 		qcom,affinity = <0>;
-		/* #ifdef VENDOR_EDIT */
+		/* #ifdef CONFIG_PRODUCT_REALME_TRINKET */
 		/* fangxiang@shanghai, added for thermal */
 		dump_thres = <864000>;
 		/* #endif */
@@ -34,7 +34,7 @@
 		compatible = "qcom,msm-hw-limits";
 		interrupts = <GIC_SPI 37 IRQ_TYPE_LEVEL_HIGH>;
 		qcom,affinity = <1>;
-		/* #ifdef VENDOR_EDIT */
+		/* #ifdef CONFIG_PRODUCT_REALME_TRINKET */
 		/* fangxiang@shanghai, added for thermal */
 		dump_thres = <902400>;
 		/* #endif */
@@ -124,7 +124,7 @@
 	};
 
 	quiet-therm-adc {
-		/* #ifdef VENDOR_EDIT */
+		/* #ifdef CONFIG_PRODUCT_REALME_TRINKET */
 		/* fangxiang@shanghai, added for thermal */
 		/* shunzhou.jiang@BSP.Power modify for power */
 		polling-delay-passive = <50>;
@@ -212,7 +212,7 @@
 		};
 	};
 
-//#ifdef VENDOR_EDIT
+//#ifdef CONFIG_PRODUCT_REALME_TRINKET
 /*LiYue@BSP.CHG.Basic, 2019/07/04, add for usb connector temp check*/
 /*	conn-therm-adc {
 		polling-delay-passive = <0>;
@@ -1920,7 +1920,7 @@
 		};
 	};
 
-	/* #ifdef VENDOR_EDIT */
+	/* #ifdef CONFIG_PRODUCT_REALME_TRINKET */
 	/* wangchao@ODM.BSP.charge, 2020/1/20, Add for quiet-therm control charging current*/
 	quiet-therm-usr {
 		polling-delay-passive = <0>;

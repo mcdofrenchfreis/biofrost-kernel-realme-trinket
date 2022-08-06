@@ -1035,12 +1035,12 @@ static inline void userns_fixup_signal_uid(struct siginfo *info, struct task_str
 }
 #endif
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_PRODUCT_REALME_TRINKET
 /*fanhui@PhoneSW.BSP, 2016-06-21, DeathHealer, record the SIGSTOP sender*/
 extern char last_stopper_comm[];
 #endif
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_PRODUCT_REALME_TRINKET
 //Haoran.Zhang@PSW.AD.Kernel.1052210, 2015/11/04, Modify for the sender who kill system_server
 //Jianping.Zheng@PSW.AD.Kernel.1052210, 2018/04/31, Modify for print log when the key process thread killed
 static bool is_zygote_process(struct task_struct *t)
@@ -1099,14 +1099,14 @@ static int __send_signal(int sig, struct siginfo *info, struct task_struct *t,
 
 	result = TRACE_SIGNAL_IGNORED;
 
-#if defined(VENDOR_EDIT) && defined(CONFIG_DEATH_HEALER)
+#if defined(CONFIG_PRODUCT_REALME_TRINKET) && defined(CONFIG_DEATH_HEALER)
 /*fanhui@PhoneSW.BSP, 2016-06-21, DeathHealer, record the SIGSTOP sender*/
 	if (sig == SIGSTOP && (!strncmp(t->comm,"main", TASK_COMM_LEN) ||
 		!strncmp(t->comm,"system_server", TASK_COMM_LEN) || !strncmp(t->comm,"surfaceflinger", TASK_COMM_LEN)))
 		snprintf(last_stopper_comm, 64, "%s[%d]", current->comm, current->pid);
 #endif
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_PRODUCT_REALME_TRINKET
 //Haoran.Zhang@PSW.AD.Kernel.1052210, 2015/11/04, Modify for the sender who kill system_server
         if(1) {
                 /*add the SIGKILL print log for some debug*/

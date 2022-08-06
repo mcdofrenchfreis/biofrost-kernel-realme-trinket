@@ -51,7 +51,7 @@
 		};
 	};
 };
-/* #ifdef VENDOR_EDIT */
+/* #ifdef CONFIG_PRODUCT_REALME_TRINKET */
 /* huanli.chang@PSW.MM.AudioDriver.Machine, 2019/10/16,add for smartpa */
 /* He.Lu@PSW.MM.AudioDriver.Machine, 2019/12/08,Remove for smartpa*/
 /*
@@ -71,7 +71,7 @@
 				&pri_i2s_data1_sleep>;
 };
 */
-/* #endif VENDOR_EDIT */
+/* #endif CONFIG_PRODUCT_REALME_TRINKET */
 
 &q6core {
 	sm6150_snd: sound {

@@ -51,7 +51,7 @@
 		};
 	};
 };
-/* #ifdef VENDOR_EDIT */
+/* #ifdef CONFIG_PRODUCT_REALME_TRINKET */
 /* huanli.chang@PSW.MM.AudioDriver.Machine, 2019/10/16,add for smartpa */
 &dai_mi2s0 {
 	compatible = "qcom,msm-dai-q6-mi2s";
@@ -68,7 +68,7 @@
 				&pri_i2s_data0_sleep
 				&pri_i2s_data1_sleep>;
 };
-/* #endif VENDOR_EDIT */
+/* #endif CONFIG_PRODUCT_REALME_TRINKET */
 
 &q6core {
 	sm6150_snd: sound {

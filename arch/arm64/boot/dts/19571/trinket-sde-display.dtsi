@@ -17,7 +17,7 @@
 #include "dsi-panel-nt36672-truly-fhd-video.dtsi"
 #include <dt-bindings/clock/mdss-14nm-pll-clk.h>
 #include "dsi_panel_s6e8fc1x01_samsumg_amoled_fhd_plus_video.dtsi"
-//#ifdef VENDOR_EDIT
+//#ifdef CONFIG_PRODUCT_REALME_TRINKET
 /*liweidong@ODM.Multimedia.LCD, 2019/11/30, Add for LCD bring up*/
 #include "dsi-panel-hx83112a-boe-fhd-video.dtsi"
 #include "dsi-panel-hx83112a-dongshan-fhd-video.dtsi"
@@ -167,7 +167,7 @@
 
 		qcom,dsi-panel = <&dsi_nt36672_truly_video>;
 	};
-//#ifdef VENDOR_EDIT
+//#ifdef CONFIG_PRODUCT_REALME_TRINKET
 /*liweidong@ODM.Multimedia.LCD, 2019/11/30, Add for LCD bring up*/
 	dsi_hx83112a_boe_vid_display: qcom,dsi-display@6 {
 		label = "dsi_hx83112a_boe_vid_display";
@@ -444,7 +444,7 @@
 };
 
 
-//#ifdef VENDOR_EDIT
+//#ifdef CONFIG_PRODUCT_REALME_TRINKET
 /*panxiaolong@ODM.Multimedia.LCD, 2019/11/23, Add for LCD bring up*/
 &dsi_hx83112a_boe_video {
 	qcom,mdss-dsi-t-clk-post = <0x0f>;

@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-2.0
-# ifndef VENDOR_EDIT
+# ifndef CONFIG_PRODUCT_REALME_TRINKET
 # Weizhi.Chen@BSP.Kernel.Driver, 2019/10/09, Modify for use oppo target dts for kernel.
 #dts-dirs += actions
 #dts-dirs += al
@@ -28,12 +28,12 @@
 #dts-dirs += zte
 # else
 #dts-dirs += 19375
-# endif /* VENDOR_EDIT */
-#ifdef VENDOR_EDIT
+# endif /* CONFIG_PRODUCT_REALME_TRINKET */
+#ifdef CONFIG_PRODUCT_REALME_TRINKET
 #qiantao @bsp.kernel.drvier ,2019/12/6 ,Modify for user oppo targer dts for kernel
 #dts-dirs += 19571
-# endif /* VENDOR_EDIT */
-#ifdef VENDOR_EDIT
+# endif /* CONFIG_PRODUCT_REALME_TRINKET */
+#ifdef CONFIG_PRODUCT_REALME_TRINKET
 #//zhye@BSP.Boot.Bootflow, 2019-2-19, add for 6125P upgrade
 #dts-dirs += 19021
 dts-dirs += 19631

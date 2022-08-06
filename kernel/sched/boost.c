@@ -200,7 +200,7 @@ static void sched_boost_enable(int type)
 	sched_boosts[next_boost].enter();
 }
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_PRODUCT_REALME_TRINKET
 void sched_boost_disable_all(void)
 #else
 static void sched_boost_disable_all(void)
@@ -215,7 +215,7 @@ static void sched_boost_disable_all(void)
 		}
 	}
 }
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_PRODUCT_REALME_TRINKET
 EXPORT_SYMBOL_GPL(sched_boost_disable_all);
 #endif
 

@@ -1747,7 +1747,7 @@ composite_setup(struct usb_gadget *gadget, const struct usb_ctrlrequest *ctrl)
 					cdev->desc.bcdUSB = cpu_to_le16(0x0320);
 					cdev->desc.bMaxPacketSize0 = 9;
 				} else {
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_PRODUCT_REALME_TRINKET
 /* Hanwenchao@HQ.BSP.Kernel.USB, 20200321, for sometimes can't select usb mode on Windows XP */
 					cdev->desc.bcdUSB = cpu_to_le16(0x0200);
 #else
@@ -1756,7 +1756,7 @@ composite_setup(struct usb_gadget *gadget, const struct usb_ctrlrequest *ctrl)
 				}
 			} else {
 				if (gadget->lpm_capable)
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_PRODUCT_REALME_TRINKET
 /* Hanwenchao@HQ.BSP.Kernel.USB, 20200321, for sometimes can't select usb mode on Windows XP */
 					cdev->desc.bcdUSB = cpu_to_le16(0x0200);
 #else

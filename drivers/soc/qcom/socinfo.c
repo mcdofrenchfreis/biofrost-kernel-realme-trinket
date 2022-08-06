@@ -299,12 +299,12 @@ static union {
     //#endif
 } *socinfo;
 
-//#if defined(VENDOR_EDIT) && defined(CONFIG_CONFIDENTIAL_EUCLID_VERSION)
+//#if defined(CONFIG_PRODUCT_REALME_TRINKET) && defined(CONFIG_CONFIDENTIAL_EUCLID_VERSION)
 /* Weizhi.Chen@BSP.Kernel.Driver, 2019/12/10, Add for fake soc id string */
 //static char *final_soc_id_string = "SM6150";
 //#else
 //static char *final_soc_id_string = "SM6125";
-//#endif /* VENDOR_EDIT */
+//#endif /* CONFIG_PRODUCT_REALME_TRINKET */
 
 /* max socinfo format version supported */
 #define MAX_SOCINFO_FORMAT SOCINFO_VERSION(0, 16)
@@ -1911,10 +1911,10 @@ int __init socinfo_init(void)
 		pr_warn("New IDs added! ID => CPU mapping needs an update.\n");
 
 	cur_cpu = cpu_of_id[socinfo->v0_1.id].generic_soc_type;
-	//#ifdef VENDOR_EDIT
+	//#ifdef CONFIG_PRODUCT_REALME_TRINKET
 	/* Weizhi.Chen@BSP.Kernel.Driver, 2019/12/10, Add for fake soc id string */
 	//cpu_of_id[socinfo->v0_1.id].soc_id_string = final_soc_id_string;
-	//#endif /* VENDOR_EDIT */
+	//#endif /* CONFIG_PRODUCT_REALME_TRINKET */
 	boot_stats_init();
     //#ifdef ODM_WT_EDIT
 	//xubuchao1_wt@ODM_WT.BSP.SENSOR,2020/04/20, Add for mag compatible

@@ -96,10 +96,10 @@
 		qcom,wsa-swr-gpios = <&wsa_swr_gpios>;
 		qcom,wsa-bcl-pmic-params = /bits/ 8 <0x00 0x00 0x1E>;
 		swr0: wsa_swr_master {
-			//#ifdef VENDOR_EDIT
+			//#ifdef CONFIG_PRODUCT_REALME_TRINKET
 			//Huanli.chang@PSW.MM.AudioDriver.Codec, 2020/03/04, Remove WSA not use
 			status = "disabled";
-			//#endif VENDOR_EDIT
+			//#endif CONFIG_PRODUCT_REALME_TRINKET
 			compatible = "qcom,swr-mstr";
 			#address-cells = <2>;
 			#size-cells = <0>;
@@ -178,7 +178,7 @@
 		qcom,cdc-vdd-buck-current = <650000>;
 
 		qcom,cdc-micbias1-mv = <1800>;
-                /*#ifndef VENDOR_EDIT*/
+                /*#ifndef CONFIG_PRODUCT_REALME_TRINKET*/
                 /*huanli.chang@PSW.MM.AudioDriver.MBHC, 2019/10/18, modify micbias 2 to 2.7v */
                 /*
                 qcom,cdc-micbias2-mv = <1800>;
@@ -199,7 +199,7 @@
 	qcom,msm-mi2s-master = <1>, <1>, <1>, <1>, <1>;
 	qcom,ext-disp-audio-rx = <1>;
 	qcom,audio-routing =
-                /*#ifdef VENDOR_EDIT*/
+                /*#ifdef CONFIG_PRODUCT_REALME_TRINKET*/
                 /* huanli.chang@PSW.MM.AudioDriver.Machine,2019/10/19, Add for audio bringup*/
 		"AMIC1", "MIC BIAS1",
 		"MIC BIAS1", "Analog Mic1",
@@ -243,7 +243,7 @@
 		"WSA_SPK2 OUT", "VA_MCLK";
 	qcom,msm-mbhc-hphl-swh = <1>;
 	qcom,msm-mbhc-gnd-swh = <1>;
-	/*#ifdef VENDOR_EDIT*/
+	/*#ifdef CONFIG_PRODUCT_REALME_TRINKET*/
 	/* huanli.chang@PSW.MM.AudioDriver.Machine,2019/10/19, Add for audio bringup*/
 	/*
 	qcom,cdc-dmic01-gpios = <&cdc_dmic01_gpios>;
@@ -253,7 +253,7 @@
 	asoc-codec  = <&stub_codec>, <&bolero>, <&ext_disp_audio_codec>;
 	asoc-codec-names = "msm-stub-codec.1", "bolero_codec",
 				"msm-ext-disp-audio-codec-rx";
-	/* #ifdef VENDOR_EDIT */
+	/* #ifdef CONFIG_PRODUCT_REALME_TRINKET */
 	/* huanli.chang@PSW.MM.AudioDriver.Machine, 2019/10/16,add for smartpa */
 	/*
         qcom,wsa-max-devs = <1>;
@@ -266,7 +266,7 @@
 	qcom,wsa-max-devs = <0>;
 	qcom,mi2s-audio-intf = <1>;
 	oppo,speaker-pa = "nxp";
-	/* #endif VENDOR_EDIT */
+	/* #endif CONFIG_PRODUCT_REALME_TRINKET */
 	qcom,codec-max-aux-devs = <1>;
 	qcom,codec-aux-devs = <&wcd937x_codec>;
 	qcom,msm_audio_ssr_devs = <&audio_apr>, <&q6core>,
@@ -290,7 +290,7 @@
 
 	wsa_swr_gpios: wsa_swr_clk_data_pinctrl {
 		compatible = "qcom,msm-cdc-pinctrl";
-		/* #ifdef VENDOR_EDIT */
+		/* #ifdef CONFIG_PRODUCT_REALME_TRINKET */
 		/* huanli.chang@PSW.MM.AudioDriver.Machine, 2020/01/13, delect for cam */
 		/*
 		pinctrl-names = "aud_active", "aud_sleep";
@@ -318,7 +318,7 @@
 
 	wsa_spkr_en1: wsa_spkr_en1_pinctrl {
 		compatible = "qcom,msm-cdc-pinctrl";
-		/* #ifdef VENDOR_EDIT */
+		/* #ifdef CONFIG_PRODUCT_REALME_TRINKET */
 		/* huanli.chang@PSW.MM.AudioDriver.Machine, 2020/01/13,delect for cam */
 		/*
 		pinctrl-names = "aud_active", "aud_sleep";

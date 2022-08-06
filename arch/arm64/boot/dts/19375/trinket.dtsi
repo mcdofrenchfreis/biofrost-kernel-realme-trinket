@@ -415,14 +415,14 @@
 			compatible = "android,firmware";
 			vbmeta {
 				compatible = "android,vbmeta";
-				// #ifndef VENDOR_EDIT
+				// #ifndef CONFIG_PRODUCT_REALME_TRINKET
 				// Weizhi.Chen@BSP.Bootloader.Bootflow, 2019/11/01, Modify for diable AB, Change from true -> false
 				// parts = "vbmeta,boot,system,vendor,dtbo
 				// else
 				parts = "vbmeta,boot,system,vendor,dtbo,recovery";
-				// #endif /* VENDOR_EDIT */
+				// #endif /* CONFIG_PRODUCT_REALME_TRINKET */
 			};
-			// #ifdef VENDOR_EDIT
+			// #ifdef CONFIG_PRODUCT_REALME_TRINKET
 			// Weizhi.Chen@BSP.Bootloader.Bootflow, 2019/11/26, Delete for super dynamic partition.
 			//fstab {
 			//	compatible = "android,fstab";
@@ -431,16 +431,16 @@
 			//		dev = "/dev/block/platform/soc/4804000.ufshc/by-name/vendor";
 			//		type = "ext4";
 			//		mnt_flags = "ro,barrier=1,discard";
-			//		// #ifndef VENDOR_EDIT
+			//		// #ifndef CONFIG_PRODUCT_REALME_TRINKET
 			//		// Weizhi.Chen@BSP.Bootloader.Bootflow, 2019/11/01, Modify for diable AB, Change from true -> false
 			//		// fsmgr_flags = "wait,slotselect,avb";
 			//		// else
 			//		fsmgr_flags = "wait,avb";
-			//		// #endif /* VENDOR_EDIT */
+			//		// #endif /* CONFIG_PRODUCT_REALME_TRINKET */
 			//		status = "ok";
 			//	};
 			//};
-			// #endif /* VENDOR_EDIT */
+			// #endif /* CONFIG_PRODUCT_REALME_TRINKET */
 		};
 	};
 
@@ -476,12 +476,12 @@
 		removed_region: removed_region@46200000 {
 			compatible = "removed-dma-pool";
 			no-map;
-                       //#ifndef VENDOR_EDIT
+                       //#ifndef CONFIG_PRODUCT_REALME_TRINKET
                        //chenpan@BSP.Fingerprint.Basic, 2019-10-16, add to enlarge memory of tz to 112M
                        //reg = <0 0x46200000 0 0x2d00000>;
                        //#else
                        reg = <0 0x46200000 0 0x7000000>;
-                       //#endif /* VENDOR_EDIT */
+                       //#endif /* CONFIG_PRODUCT_REALME_TRINKET */
 		};
 
 		pil_camera_mem: camera_region@6ab00000 {
@@ -514,7 +514,7 @@
 			reg = <0 0x74500000 0 0x1e00000>;
 		};
 
-//#ifdef VENDOR_EDIT
+//#ifdef CONFIG_PRODUCT_REALME_TRINKET
 // changhuanli@MM.Audiodriver.audio, 2019/12/28, Modify for add adsp mem from 0x1E00000 to 0x2000000
 		pil_adsp_mem: pil_adsp_region@76300000 {
 			compatible = "removed-dma-pool";
@@ -674,7 +674,7 @@
 	ranges = <0 0 0 0xffffffff>;
 	compatible = "simple-bus";
 
-        // #ifdef VENDOR_EDIT
+        // #ifdef CONFIG_PRODUCT_REALME_TRINKET
         /* chenpan@BSP.Fingerprint.Basic 2019-10-15 add for fingerprint */
         oppo_fp_common {
                 compatible = "oppo,fp_common"; //Manufacture, and Model
@@ -717,9 +717,9 @@
                         poweron-level = <0>;
                 };
         };
-        // #endif /* end VENDOR_EDIT */
+        // #endif /* end CONFIG_PRODUCT_REALME_TRINKET */
 
-	// #ifdef VENDOR_EDIT
+	// #ifdef CONFIG_PRODUCT_REALME_TRINKET
 	/* Weizhi.Chen@BSP.Kernel.Driver, 2019/11/27, Add for adc read for aboard */
 	devinfo {
 		compatible = "oppo-devinfo";
@@ -746,7 +746,7 @@
 			match-projects = <19375 19376>;
 		};
 	};
-	// #endif /* VENDOR_EDIT */
+	// #endif /* CONFIG_PRODUCT_REALME_TRINKET */
 
 	intc: interrupt-controller@f200000 {
 		compatible = "arm,gic-v3";
@@ -1364,7 +1364,7 @@
 		reg = <0xf017000 0x1000>;
 		reg-names = "wdt-base";
 		interrupts = <0 3 0>, <0 4 0>;
-		//#ifdef VENDOR_EDIT //yixue.ge modify bark time to 20s
+		//#ifdef CONFIG_PRODUCT_REALME_TRINKET //yixue.ge modify bark time to 20s
 		//qcom,bark-time = <11000>;
 		//#else
 		qcom,bark-time = <20000>;
@@ -2103,7 +2103,7 @@
 
 	qcom_seecom: qseecom@46d00000 {
 		compatible = "qcom,qseecom";
-               //#ifndef VENDOR_EDIT
+               //#ifndef CONFIG_PRODUCT_REALME_TRINKET
                //chenpan@BSP.Fingerprint.Basic, 2019-10-16, add to enlarge memory of tz to 96M
                //reg = <0x46d00000 0x2200000>;
                //#else
@@ -2141,7 +2141,7 @@
 
 	qcom_smcinvoke: smcinvoke@46d00000 {
 		compatible = "qcom,smcinvoke";
-               //#ifndef VENDOR_EDIT
+               //#ifndef CONFIG_PRODUCT_REALME_TRINKET
                //chenpan@BSP.Fingerprint.Basic, 2019-10-16, add to enlarge memory of tz to 60M
                //reg = <0x46d00000 0x2200000>;
                //#else
@@ -2199,7 +2199,7 @@
 		qcom,client-id = <0x00000001>;
 	};
 
-    //#ifdef VENDOR_EDIT
+    //#ifdef CONFIG_PRODUCT_REALME_TRINKET
     //Zhengpeng.Tan@NW.AP.NV.892767, 2016/11/30
     //#ifdef FEATURE_OPPO_NV_BACKUP
     //add for creating a shared memory with uio for nv backup and restore
@@ -2211,7 +2211,7 @@
 	qcom,guard-memory;
     };
     //#endif /* FEATURE_OPPO_NV_BACKUP */
-    //#endif /* VENDOR_EDIT */
+    //#endif /* CONFIG_PRODUCT_REALME_TRINKET */
 
 	qcom_cedev: qcedev@1b20000 {
 		compatible = "qcom,qcedev";
@@ -2975,7 +2975,7 @@
 		};
 	};
 
-	/*#ifdef VENDOR_EDIT */
+	/*#ifdef CONFIG_PRODUCT_REALME_TRINKET */
 	/* lijingxiang@BSP.Kernel.Stability, 2020/02/17, Add for NC gpio */
 	oppo_gpio_dvt_pm6125_nc: oppo_gpio_dvt_pm6125_nc {
 		pins = "gpio1", "gpio2", "gpio3", "gpio4", "gpio8";
@@ -2983,7 +2983,7 @@
 		input-enable;
 		bias-pull-down;
 	};
-	/*#endif VENDOR_EDIT */
+	/*#endif CONFIG_PRODUCT_REALME_TRINKET */
 };
 
 &spmi_bus {
@@ -3057,7 +3057,7 @@
 		qcom,lut-index = <1>;
 	};
 
-//#ifdef VENDOR_EDIT
+//#ifdef CONFIG_PRODUCT_REALME_TRINKET
 /*LiYue@BSP.CHG.Basic, 2019/07/04, remove for usb connector temp check*/
 /*	conn_therm {
 		reg = <ADC_GPIO1_PU2>;
@@ -3092,7 +3092,7 @@
 		};
 	};
 
-	/*#ifdef VENDOR_EDIT */
+	/*#ifdef CONFIG_PRODUCT_REALME_TRINKET */
 	/* lijingxiang@BSP.Kernel.Stability, 2020/02/17, Add for NC gpio */
 	oppo_gpio_dvt_pmi632_nc: oppo_gpio_dvt_pmi632_nc {
 		pins = "gpio5", "gpio6";
@@ -3100,12 +3100,12 @@
 		input-enable;
 		bias-pull-down;
 	};
-	/*#endif VENDOR_EDIT */
+	/*#endif CONFIG_PRODUCT_REALME_TRINKET */
 
 };
 
 &pmi632_adc_tm {
-//#ifdef VENDOR_EDIT
+//#ifdef CONFIG_PRODUCT_REALME_TRINKET
 //LiYue@BSP.CHG.Basic, 2019/07/04, remove for usb connector temp check
 	io-channels =
 //#else
@@ -3115,7 +3115,7 @@
 			<&pmi632_vadc ADC_GPIO2_PU2>;
 
 	/* Channel nodes */
-//#ifdef VENDOR_EDIT
+//#ifdef CONFIG_PRODUCT_REALME_TRINKET
 /*LiYue@BSP.CHG.Basic, 2019/07/04, remove for usb connector temp check*/
 /*	conn_therm {
 		reg = <ADC_GPIO1_PU2>;
@@ -3263,7 +3263,7 @@
 					  "qcom,smp2p-early-crash-ind";
 		};
 	};
-//#ifdef VENDOR_EDIT
+//#ifdef CONFIG_PRODUCT_REALME_TRINKET
 /* Hexiaosen@PSW.BSP. 2019/11/25 modify for oppo rf cable monitor */
         oppo_rf_cable {
                 compatible = "oppo,rf_cable";
@@ -3274,9 +3274,9 @@
                 pinctrl-names = "rf_cable_active";
                 pinctrl-0 = <&rf_cable0_active &rf_cable1_active>;
         };
-//#endif /* VENDOR_EDIT */
+//#endif /* CONFIG_PRODUCT_REALME_TRINKET */
 
-	/*#ifdef VENDOR_EDIT */
+	/*#ifdef CONFIG_PRODUCT_REALME_TRINKET */
 	/* lijingxiang@BSP.Kernel.Stability, 2020/02/17, Add for NC gpio */
 	oppo_gpio_dvt {
 		status = "ok";
@@ -3284,7 +3284,7 @@
 		pinctrl-names = "default";
 		pinctrl-0 = <&oppo_gpio_dvt_nc &oppo_gpio_dvt_pm6125_nc &oppo_gpio_dvt_pmi632_nc>;
 	};
-	/*#endif VENDOR_EDIT */
+	/*#endif CONFIG_PRODUCT_REALME_TRINKET */
 
 };
 
@@ -3307,7 +3307,7 @@
 			drive-strength = <2>;
 		};
 	};
-//#ifdef VENDOR_EDIT
+//#ifdef CONFIG_PRODUCT_REALME_TRINKET
 /* Hexiaosen@PSW.BSP. 2019/11/25 modify for rf-cable */
         rf_cable0_active: rf_cable0_active {
                 mux {
@@ -3333,7 +3333,7 @@
                         bias-pull-up;
                 };
         };
-//#endif /* VENDOR_EDIT */
+//#endif /* CONFIG_PRODUCT_REALME_TRINKET */
 };
 
 &pm8008_gpios {
@@ -3368,7 +3368,7 @@
 	qcom,min-dropout-voltage = <100000>;
 };
 
-/*#ifdef VENDOR_EDIT */
+/*#ifdef CONFIG_PRODUCT_REALME_TRINKET */
 /* 20191018, Added pin settings for camera (s5kgm1, s5k3p9, hi846, sp2509v) */
 &L2P {
 	regulator-max-microvolt = <1200000>;
@@ -3396,7 +3396,7 @@
 	regulator-max-microvolt = <3000000>;
 };
 
-/*#ifdef VENDOR_EDIT */
+/*#ifdef CONFIG_PRODUCT_REALME_TRINKET */
 /* 20191018, Added pin settings for camera (s5kgm1, s5k3p9, hi846, sp2509v) */
 &L7P {
 	regulator-min-microvolt = <2800000>;

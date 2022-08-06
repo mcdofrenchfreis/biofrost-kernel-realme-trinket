@@ -4239,7 +4239,7 @@ again:
 	BUG();
 }
 
-#if defined(VENDOR_EDIT) && defined(CONFIG_PROCESS_RECLAIM) && defined(CONFIG_OPPO_SPECIAL_BUILD)
+#if defined(CONFIG_PRODUCT_REALME_TRINKET) && defined(CONFIG_PROCESS_RECLAIM) && defined(CONFIG_OPPO_SPECIAL_BUILD)
 /* Kui.Zhang@PSW.BSP.Kernel.Performance, 2019-02-26,
  * collect reclaimed_shrinked task schedule record
  */
@@ -4388,7 +4388,7 @@ static void __sched notrace __schedule(bool preempt)
 
 		trace_sched_switch(preempt, prev, next);
 
-#if defined(VENDOR_EDIT) && defined(CONFIG_PROCESS_RECLAIM) && defined(CONFIG_OPPO_SPECIAL_BUILD)
+#if defined(CONFIG_PRODUCT_REALME_TRINKET) && defined(CONFIG_PROCESS_RECLAIM) && defined(CONFIG_OPPO_SPECIAL_BUILD)
 		/* Kui.Zhang@PSW.BSP.Kernel.Performance, 2019-02-26,
 		 * collect reclaimed_shrinked task schedule record
 		 */
@@ -8593,7 +8593,7 @@ void sched_exit(struct task_struct *p)
 
 __read_mostly bool sched_predl = 1;
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_PRODUCT_REALME_TRINKET
 /*fanhui@PhoneSW.BSP, 2016-06-23, get current task on one cpu*/
 struct task_struct *oppo_get_cpu_task(int cpu)
 {

@@ -143,7 +143,7 @@
 		qcom,dsi-panel = <&dsi_hx83112a_truly_video>;
 	};
 
-	//#ifdef VENDOR_EDIT
+	//#ifdef CONFIG_PRODUCT_REALME_TRINKET
 	//guoqiang.jiang@oppo.com,2019.03.27,add himax 18112a panel
 	dsi_oppo19012_himax_83112a_vid_display: qcom,dsi-display@4 {
 		label = "dsi_oppo19012_himax_83112a_vid_display";
@@ -228,7 +228,7 @@
 
 		qcom,dsi-panel = <&dsi_oppo19021_nt36525b_hlt_video>;
 	};
-       //#endif /* VENDOR_EDIT */
+       //#endif /* CONFIG_PRODUCT_REALME_TRINKET */
 
 	sde_dsi: qcom,dsi-display {
 		compatible = "qcom,dsi-display";
@@ -390,7 +390,7 @@
 	};
 };
 
-//#ifdef VENDOR_EDIT
+//#ifdef CONFIG_PRODUCT_REALME_TRINKET
 //guoqiang.jiang@oppo.com,2019.03.27,add himax 18112a panel
 &dsi_oppo19012_himax_83112a_video {
     qcom,mdss-dsi-t-clk-post = <0x0f>;
@@ -535,4 +535,4 @@
 		};
 	};
 };
-//#endif /* VENDOR_EDIT */
+//#endif /* CONFIG_PRODUCT_REALME_TRINKET */

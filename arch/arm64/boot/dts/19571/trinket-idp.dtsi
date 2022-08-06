@@ -29,7 +29,7 @@
 &soc {
 	mtp_batterydata: qcom,battery-data {
 		qcom,batt-id-range-pct = <15>;
-	//#ifdef VENDOR_EDIT
+	//#ifdef CONFIG_PRODUCT_REALME_TRINKET
 	/*wangchao@ODM.BSP.charge, 2019/12/6, Add oppo battery table dtsi*/
 		#include "oppo_battery_5000mah_1k_pmi632_Liwinon.dtsi"
 		#include "oppo_battery_5000mah_15k_pmi632_Coslight.dtsi"
@@ -87,7 +87,7 @@
 
 &qupv3_se1_i2c {
 	status = "ok";
-//ifdef VENDOR_EDIT
+//ifdef CONFIG_PRODUCT_REALME_TRINKET
 //lihua@ODM.BSP.kernel.nfc 2019/12/06 add for nxp nfc
 //Add for: nxp nfc dtsi
 	nq@28 {
@@ -106,9 +106,9 @@
 		pinctrl-1 = <&nfc_int_suspend &nfc_enable_suspend
 				&nfc_clk_req_suspend>;
 	};
-//endif VENDOR_EDIT
+//endif CONFIG_PRODUCT_REALME_TRINKET
 
-	/* #ifdef VENDOR_EDIT */
+	/* #ifdef CONFIG_PRODUCT_REALME_TRINKET */
 	/* huanli.chang@PSW.MM.AudioDriver.Machine, 2019/10/16, Add for smartpa */
 	/* He.Lu@PSW.MM.AudioDriver.Machine, 2019/12/08, Remove for homer */
 	/*
@@ -119,7 +119,7 @@
 		status = "okay";
 	};
 	*/
-	/* #endif VENDOR_EDIT */
+	/* #endif CONFIG_PRODUCT_REALME_TRINKET */
 };
 
 &sdhc_1 {
@@ -162,7 +162,7 @@
 
 &pmi632_qg {
 	qcom,battery-data = <&mtp_batterydata>;
-//#ifndef VENDOR_EDIT
+//#ifndef CONFIG_PRODUCT_REALME_TRINKET
 /*wangchao@ODM.BSP.charge, 2020/2/21, set qg-iterm-ma more then default_iterm_ma*/
 	//qcom,qg-iterm-ma = <100>;
 //#else
@@ -186,7 +186,7 @@
 	qcom,charger-temp-max = <800>;
 	qcom,smb-temp-max = <800>;
 	qcom,auto-recharge-soc = <98>;
-//#ifdef VENDOR_EDIT
+//#ifdef CONFIG_PRODUCT_REALME_TRINKET
 //Xinming.Ma@HQ.Camera 2020/02/22 modified for fix bug that torch cannot open in low power
 	qcom,flash-disable-soc = <1>;
 //#endif
@@ -385,7 +385,7 @@
 	qcom,platform-en-gpio = <&tlmm 8 0>;
 };
 
-//#ifdef VENDOR_EDIT
+//#ifdef CONFIG_PRODUCT_REALME_TRINKET
 //liweidong@ODM.Multimedia.LCD, 2019/12/6, Add for LCD bring up
 &dsi_hx83112a_boe_video {
         qcom,panel-supply-entries = <&dsi_panel_pwr_supply>;
@@ -443,7 +443,7 @@
 };
 //#endif
 
-//#ifdef VENDOR_EDIT
+//#ifdef CONFIG_PRODUCT_REALME_TRINKET
 //fengkui@BSP.kernel.drvier, 2019/11/26, Add for oppo touch bring up
 &qupv3_se2_spi {
 	status = "ok";
@@ -537,7 +537,7 @@
 };
 //#endif
 
-//#ifdef VENDOR_EDIT
+//#ifdef CONFIG_PRODUCT_REALME_TRINKET
 ///* Yichun.Chen  PSW.BSP.CHG  2019-05-30  oppo charge edit dts */
 #include "oppo-charge.dtsi"
 //endif

@@ -1,6 +1,6 @@
 /**
  * Copyright 2008-2013 OPPO Mobile Comm Corp., Ltd, All rights reserved.
- * VENDOR_EDIT:
+ * CONFIG_PRODUCT_REALME_TRINKET:
  * FileName:devinfo.c
  * ModuleName:devinfo
  * Author: wangjc

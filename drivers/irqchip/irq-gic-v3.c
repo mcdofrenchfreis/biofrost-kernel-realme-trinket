@@ -44,7 +44,7 @@
 #include <linux/notifier.h>
 
 #include "irq-gic-common.h"
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_PRODUCT_REALME_TRINKET
 //Nanwei.Deng@BSP.Power.Basic 2018/06/14 add formodem irq, ,case03529649
 
 //add for modem wake up source
@@ -68,15 +68,15 @@ extern u64 wakeup_source_count_all;
 
 extern int modem_wakeup_src_count[MODEM_WAKEUP_SRC_NUM];
 extern char modem_wakeup_src_string[MODEM_WAKEUP_SRC_NUM][10];
-#endif /* VENDOR_EDIT */
-#if defined(VENDOR_EDIT) && defined(CONFIG_PROCESS_RECLAIM) && defined(CONFIG_OPPO_SPECIAL_BUILD)
+#endif /* CONFIG_PRODUCT_REALME_TRINKET */
+#if defined(CONFIG_PRODUCT_REALME_TRINKET) && defined(CONFIG_PROCESS_RECLAIM) && defined(CONFIG_OPPO_SPECIAL_BUILD)
 /* Kui.Zhang@PSW.TEC.Kernel.Performance, 2019/02/27
  * collect interrupt doing time during process reclaim, only effect in age test
  */
 #include <linux/sched/clock.h>
 #endif
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_PRODUCT_REALME_TRINKET
 //liuhd@PSW.CN.WiFi.Hardware.1202765,2017/12/10,add for the irq of wlan when system wakeuped by wlan
 #define WLAN_WAKEUP_IRQ_NUMBER	725
 #define WAKEUP_SOURCE_WIFI_1ST 123
@@ -85,7 +85,7 @@ extern char modem_wakeup_src_string[MODEM_WAKEUP_SRC_NUM][10];
 #define WAKEUP_SOURCE_WIFI_4TH 134
 
 extern u64 wakeup_source_count_wifi ;
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_PRODUCT_REALME_TRINKET*/
 
 
 struct redist_region {
@@ -440,7 +440,7 @@ static u64 gic_mpidr_to_affinity(unsigned long mpidr)
 static asmlinkage void __exception_irq_entry gic_handle_irq(struct pt_regs *regs)
 {
 	u32 irqnr;
-#if defined(VENDOR_EDIT) && defined(CONFIG_PROCESS_RECLAIM) && defined(CONFIG_OPPO_SPECIAL_BUILD)
+#if defined(CONFIG_PRODUCT_REALME_TRINKET) && defined(CONFIG_PROCESS_RECLAIM) && defined(CONFIG_OPPO_SPECIAL_BUILD)
 	/* Kui.Zhang@PSW.TEC.Kernel.Performance, 2019/02/27
 	 * collect interrupt doing time during process reclaim, only effect in age test
 	 */
@@ -496,7 +496,7 @@ static asmlinkage void __exception_irq_entry gic_handle_irq(struct pt_regs *regs
 		}
 	} while (irqnr != ICC_IAR1_EL1_SPURIOUS);
 
-#if defined(VENDOR_EDIT) && defined(CONFIG_PROCESS_RECLAIM) && defined(CONFIG_OPPO_SPECIAL_BUILD)
+#if defined(CONFIG_PRODUCT_REALME_TRINKET) && defined(CONFIG_PROCESS_RECLAIM) && defined(CONFIG_OPPO_SPECIAL_BUILD)
 	/* Kui.Zhang@PSW.TEC.Kernel.Performance, 2019/02/27
 	 * collect interrupt doing time during process reclaim, only effect in age test
 	 */

@@ -20,7 +20,7 @@
 		compatible = "qcom,msm-hw-limits";
 		interrupts = <GIC_SPI 37 IRQ_TYPE_LEVEL_HIGH>;
 		qcom,affinity = <0>;
-		/* #ifdef VENDOR_EDIT */
+		/* #ifdef CONFIG_PRODUCT_REALME_TRINKET */
 		/* fangxiang@shanghai, added for thermal */
 		dump_thres = <864000>;
 		/* #endif */
@@ -34,7 +34,7 @@
 		compatible = "qcom,msm-hw-limits";
 		interrupts = <GIC_SPI 37 IRQ_TYPE_LEVEL_HIGH>;
 		qcom,affinity = <1>;
-		/* #ifdef VENDOR_EDIT */
+		/* #ifdef CONFIG_PRODUCT_REALME_TRINKET */
 		/* fangxiang@shanghai, added for thermal */
 		dump_thres = <902400>;
 		/* #endif */
@@ -124,7 +124,7 @@
 	};
 
 	quiet-therm-adc {
-		/* #ifdef VENDOR_EDIT */
+		/* #ifdef CONFIG_PRODUCT_REALME_TRINKET */
 		/* fangxiang@shanghai, added for thermal */
 		polling-delay-passive = <50>;
 		polling-delay = <500>;

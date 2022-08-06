@@ -13,7 +13,7 @@
 
 #include <dt-bindings/clock/qcom,audio-ext-clk.h>
 #include <dt-bindings/sound/audio-codec-port-types.h>
-/*#ifdef VENDOR_EDIT*/
+/*#ifdef CONFIG_PRODUCT_REALME_TRINKET*/
 /*Jianqing.Liao@PSW.MM.AudioDriver.DTS, 2019/07/23, Add for sia*/
 #include "sdm845-sia81xx.dtsi"
 /*#endif*/
@@ -178,7 +178,7 @@
 		qcom,cdc-vdd-buck-current = <650000>;
 
 		qcom,cdc-micbias1-mv = <1800>;
-/*#ifndef VENDOR_EDIT*/
+/*#ifndef CONFIG_PRODUCT_REALME_TRINKET*/
 /*Jianqing.Liao@PSW.MM.AudioDriver.MBHC, 2019/07/13, modify micbias 2 to 2.7v */
 /*		qcom,cdc-micbias2-mv = <1800>; */
 /*else*/
@@ -197,7 +197,7 @@
 	qcom,msm-mi2s-master = <1>, <1>, <1>, <1>, <1>;
 	qcom,ext-disp-audio-rx = <1>;
 	qcom,audio-routing =
-/*#ifdef VENDOR_EDIT*/
+/*#ifdef CONFIG_PRODUCT_REALME_TRINKET*/
 /* GuoWang.Huang@PSW.MM.AudioDriver.Machine,2020/03/05, Add for audio bringup*/
 		"AMIC1", "MIC BIAS1",
 		"MIC BIAS1", "Analog Mic1",
@@ -209,7 +209,7 @@
 		/*#endif*/
 		"AMIC2", "MIC BIAS2",
 		"MIC BIAS2", "Analog Mic2",
-		/*#ifndef VENDOR_EDIT*/
+		/*#ifndef CONFIG_PRODUCT_REALME_TRINKET*/
 		/* he.lu@PSW.MM.AudioDriver.Machine,2019/12/08, Remove for homer bringup*/
 		/*
 		"TX DMIC0", "MIC BIAS1",
@@ -243,7 +243,7 @@
 		"RX_TX DEC1_INP", "TX DEC1 MUX",
 		"RX_TX DEC2_INP", "TX DEC2 MUX",
 		"RX_TX DEC3_INP", "TX DEC3 MUX";
-		/*#ifndef VENDOR_EDIT*/
+		/*#ifndef CONFIG_PRODUCT_REALME_TRINKET*/
 		/* he.lu@PSW.MM.AudioDriver.Machine,2019/12/08, Remove for homer bringup*/
 		/*
 		"SpkrLeft IN", "WSA_SPK1 OUT",
@@ -254,7 +254,7 @@
 		/*#endif*/
 	qcom,msm-mbhc-hphl-swh = <1>;
 	qcom,msm-mbhc-gnd-swh = <1>;
-/*#ifdef VENDOR_EDIT*/
+/*#ifdef CONFIG_PRODUCT_REALME_TRINKET*/
 /* GuoWang.Huang@PSW.MM.AudioDriver.Machine,2020/03/05, Add for audio bringup*/
 /*
 	qcom,cdc-dmic01-gpios = <&cdc_dmic01_gpios>;
@@ -264,7 +264,7 @@
 	asoc-codec  = <&stub_codec>, <&bolero>, <&ext_disp_audio_codec>;
 	asoc-codec-names = "msm-stub-codec.1", "bolero_codec",
 			"msm-ext-disp-audio-codec-rx";
-/*#ifdef VENDOR_EDIT*/
+/*#ifdef CONFIG_PRODUCT_REALME_TRINKET*/
 /* GuoWang.Huang@PSW.MM.AudioDriver.Machine,2020/03/05, Add for audio bringup*/
 	qcom,wsa-max-devs = <0>;
 	oppo,speaker-pa = "awinic";

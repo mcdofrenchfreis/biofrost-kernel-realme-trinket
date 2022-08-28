@@ -4,4 +4,5 @@
 
 # Each configuration option enables a list of files.
 
+ccflags-y += -O3
 obj-$(CONFIG_TOUCHSCREEN_NT36525B) += nt36xxx.o nt36xxx_fw_update.o nt36xxx_ext_proc.o nt36xxx_mp_ctrlram.o

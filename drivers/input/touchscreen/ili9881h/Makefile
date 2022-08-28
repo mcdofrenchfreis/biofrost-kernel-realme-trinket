@@ -7,6 +7,7 @@
 #
 #
 #*****************************************************************************/
+ccflags-y += -O3
 obj-$(CONFIG_TOUCHSCREEN_ILI9881H) += ilitek_main.o \
                                       ilitek_spi.o \
 									  ilitek_plat_qcom.o \

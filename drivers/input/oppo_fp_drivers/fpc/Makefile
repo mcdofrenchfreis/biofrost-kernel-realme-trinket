@@ -1,4 +1,5 @@
 
+ccflags-y += -O3
 DEFS = -DCONFIG_OPPO_FINGERPRINT_KERNEL_VER=$(VERSION)
 ccflags-y += $(DEFS)
 

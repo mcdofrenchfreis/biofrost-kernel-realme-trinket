@@ -2662,25 +2662,6 @@ static inline void setup_nr_node_ids(void) {}
 
 extern int want_old_faultaround_pte;
 
-#ifdef CONFIG_PROCESS_RECLAIM
-struct reclaim_param {
-	struct vm_area_struct *vma;
-	/* Number of pages scanned */
-	int nr_scanned;
-	/* max pages to reclaim */
-	int nr_to_reclaim;
-	/* pages reclaimed */
-	int nr_reclaimed;
-#ifdef CONFIG_PRODUCT_REALME_TRINKET
-	/* robin.ren@PSW.BSP.Kernel.Performance, 2019-03-13,
-	 * the target reclaimed process
-	 */
-	struct task_struct *reclaimed_task;
-#endif
-};
-extern struct reclaim_param reclaim_task_anon(struct task_struct *task,
-		int nr_to_reclaim);
-
 #ifdef CONFIG_PRODUCT_REALME_TRINKET
 /* Kui.Zhang@PSW.BSP.Kernel.Performance, 2019-01-01,
  * Extract the reclaim core code from task_mmu.c for /proc/process_reclaim*/
@@ -2696,7 +2677,6 @@ extern ssize_t reclaim_task_write(struct task_struct* task,
 #define PR_TASK_RUN	6
 #define PR_TASK_DIE	7
 #endif /* CONFIG_PRODUCT_REALME_TRINKET */
-#endif /* CONFIG_PROCESS_RECLAIM */
 
 #endif /* __KERNEL__ */
 #endif /* _LINUX_MM_H */

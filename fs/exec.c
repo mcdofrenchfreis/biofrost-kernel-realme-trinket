@@ -1036,12 +1036,12 @@ static int exec_mmap(struct mm_struct *mm)
 	task_lock(tsk);
 	active_mm = tsk->active_mm;
 	tsk->mm = mm;
-	lru_gen_add_mm(mm);
 	tsk->active_mm = mm;
 	activate_mm(active_mm, mm);
 	lru_gen_switch_mm(active_mm, mm);
 	tsk->mm->vmacache_seqnum = 0;
 	vmacache_flush(tsk);
+	lru_gen_add_mm(mm);
 	task_unlock(tsk);
 	if (old_mm) {
 		up_read(&old_mm->mmap_sem);

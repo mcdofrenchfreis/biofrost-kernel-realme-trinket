@@ -1281,7 +1281,7 @@ static void oppo_chg_awake_init(struct oppo_chg_chip *chip)
 #if (LINUX_VERSION_CODE < KERNEL_VERSION(4, 9, 0))
 	wake_lock_init(&chip->suspend_lock, WAKE_LOCK_SUSPEND, "battery suspend wakelock");
 #else
-	chip->suspend_ws = wakeup_source_register("battery suspend wakelock");
+	chip->suspend_ws = wakeup_source_register(NULL, "battery suspend wakelock");
 #endif
 }
 

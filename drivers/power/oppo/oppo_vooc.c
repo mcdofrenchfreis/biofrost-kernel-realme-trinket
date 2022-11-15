@@ -97,7 +97,7 @@ static void oppo_vooc_awake_init(struct oppo_vooc_chip *chip)
 #if (LINUX_VERSION_CODE < KERNEL_VERSION(4, 9, 0))
 	wake_lock_init(&chip->vooc_wake_lock, WAKE_LOCK_SUSPEND, "vooc_wake_lock");
 #else
-	chip->vooc_ws = wakeup_source_register("vooc_wake_lock");
+	chip->vooc_ws = wakeup_source_register(NULL, "vooc_wake_lock");
 #endif
 }
 

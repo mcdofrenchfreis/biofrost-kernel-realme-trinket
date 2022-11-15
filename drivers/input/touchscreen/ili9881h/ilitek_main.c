@@ -734,7 +734,7 @@ int ilitek_tddi_init(void)
 	atomic_set(&idev->tp_sleep, END);
 	atomic_set(&idev->mp_int_check, DISABLE);
 	atomic_set(&idev->esd_stat, END);
-	reload_fw_ws = wakeup_source_register("vooc_wake_lock");
+	reload_fw_ws = wakeup_source_register(NULL, "vooc_wake_lock");
 
 	ilitek_tddi_ic_init();
 	ilitek_tddi_wq_init();

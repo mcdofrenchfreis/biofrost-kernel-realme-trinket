@@ -37,12 +37,12 @@ static int sleepstate_pm_notifier(struct notifier_block *nb,
 {
 	switch (event) {
 	case PM_SUSPEND_PREPARE:
-		qcom_smem_state_update_bits(state, AWAKE_BIT, 0);
+		qcom_smem_state_update_bits(qstate, AWAKE_BIT, 0);
 		usleep_range(10000, 10500); /* Tuned based on SMP2P latencies */
 		break;
 
 	case PM_POST_SUSPEND:
-		qcom_smem_state_update_bits(state, AWAKE_BIT, AWAKE_BIT);
+		qcom_smem_state_update_bits(qstate, AWAKE_BIT, AWAKE_BIT);
 		break;
 	}
 

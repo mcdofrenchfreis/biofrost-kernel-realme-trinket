@@ -2263,8 +2263,9 @@ static int __drm_mode_atomic_ioctl(struct drm_device *dev, void *data,
 		return -EINVAL;
 
 	if (!(arg->flags & DRM_MODE_ATOMIC_TEST_ONLY)) {
-		cpu_input_boost_kick();
-		devfreq_boost_kick(DEVFREQ_CPU_DDR_BW);
+	  /* Boost CPU and DDR Bus to the max for 50ms when commiting a frame. */
+		cpu_input_boost_kick_max(50);
+		devfreq_boost_kick_max(DEVFREQ_CPU_DDR_BW, 50);
 	}
 
 	drm_modeset_acquire_init(&ctx, 0);

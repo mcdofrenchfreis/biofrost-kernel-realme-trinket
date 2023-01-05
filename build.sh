@@ -3,22 +3,22 @@
 # Copyright (C) 2022-2023 Mar Yvan D.
 set -uo pipefail
 
-# Cleanup first
+# Dependency preparation
 git clean -fdx
 git reset --hard
-
-# AK3 Dependency Cloning
+rm -rf AnyKernel/*.zip
+rm -rf AnyKernel/*.img
+rm -rf AnyKernel/Image.gz-dtb
 git clone --depth=1 https://github.com/mcdofrenchfreis/AnyKernel3.git -b r5x AnyKernel
 
 # Misc Stuff
 DATE=$(TZ=Asia/Singapore date +"%Y%m%d-%s")
 START=$(date +"%s")
-export ARCH=arm64
 
 # Directory Variables
 KDIR=$(pwd)
-TCDIR=/home/xevan/Development/Compiler/AOSP-clang
-GASDIR=/home/xevan/Development/Compiler/gas
+TCDIR=/home/biofrost/Development/Compiler/AOSP-clang
+GASDIR=/home/biofrost/Development/Compiler/gas
 DTBO=$(pwd)/out/arch/arm64/boot/dtbo.img
 IMAGE=$(pwd)/out/arch/arm64/boot/Image.gz-dtb
 
@@ -37,7 +37,7 @@ LINKER=ld.lld
 export COMPILER_NAME="$(${TCDIR}/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')"
 export LINKER_NAME="$("${TCDIR}"/bin/${LINKER} --version | head -n 1 | sed 's/(compatible with [^)]*)//' | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')"
 export KBUILD_BUILD_USER=xevan
-export KBUILD_BUILD_HOST=Androidist
+export KBUILD_BUILD_HOST=androidist
 export DEVICE="Realme 5 Series"
 export CODENAME="realme_trinket"
 
@@ -53,7 +53,7 @@ function sendinfo() {
         -d chat_id="$chat_id" \
         -d "disable_web_page_preview=true" \
         -d "parse_mode=html" \
-        -d text="<b>Laboratory Machine: Build Triggered</b>%0A<b>Maintainer: </b><code>${KBUILD_BUILD_USER}</code>%0A<b>Build Date: </b><code>$(date +"%Y-%m-%d %H:%M")</code>%0A<b>Device: </b><code>${DEVICE} (${CODENAME})</code>%0A<b>Kernel Version: </b><code>$(make kernelversion 2>/dev/null)</code>%0A<b>Compiler: </b><code>${COMPILER_NAME}</code>%0A<b>Linker: </b><code>${LINKER_NAME}</code>%0A<b>Zip Name: </b><code>${ZIP_NAME}</code>%0A<b>Branch: </b><code>$(git rev-parse --abbrev-ref HEAD)</code><code> (master)</code>%0A<b>Last Commit Details: </b><a href='${REPO_URL}/commit/${COMMIT_HASH}'>${COMMIT_HASH}</a> <code>($(git log --pretty=format:'%s' -1))</code>"
+        -d text="<b>Laboratory Machine: Build Triggered</b>%0A<b>Build Date: </b><code>$(date +"%Y-%m-%d %H:%M")</code>%0A<b>Device: </b><code>${DEVICE} (${CODENAME})</code>%0A<b>Kernel Version: </b><code>$(make kernelversion 2>/dev/null)</code>%0A<b>Compiler: </b><code>${COMPILER_NAME}</code>%0A<b>Linker: </b><code>${LINKER_NAME}</code>%0A<b>Zip Name: </b><code>${ZIP_NAME}</code>%0A<b>Branch: </b><code>$(git rev-parse --abbrev-ref HEAD)</code><code> (master)</code>%0A<b>Last Commit Details: </b><a href='${REPO_URL}/commit/${COMMIT_HASH}'>${COMMIT_HASH}</a> <code>($(git log --pretty=format:'%s' -1))</code>"
 }   
 function push() {
     cd AnyKernel
@@ -78,7 +78,7 @@ function compile() {
     export CROSS_COMPILE=aarch64-linux-gnu-
     export CLANG_TRIPLE=aarch64-linux-gnu-
     export CROSS_COMPILE_ARM32=arm-linux-gnueabi-
-    make -j$(nproc --all) O=out LLVM=1 LLVM-IAS=1 ARCH=arm64 \
+    make -j$(nproc --all) O=out LLVM=1 LLVM-IAS=1 \
 
     if ! [ -a "$IMAGE" ]; then
         finerr

@@ -4,10 +4,9 @@
 set -uo pipefail
 
 # Dependency preparation
-git clean -fdx
-git reset --hard
-rm -rf AnyKernel/*.zip
-rm -rf AnyKernel/*.img
+make clean && make mrproper
+git clean -fdx && git reset --hard
+rm -rf AnyKernel/*.zip && rm -rf AnyKernel/*.img
 rm -rf AnyKernel/Image.gz-dtb
 git clone --depth=1 https://github.com/mcdofrenchfreis/AnyKernel3.git -b r5x AnyKernel
 
@@ -17,16 +16,15 @@ START=$(date +"%s")
 
 # Directory Variables
 KDIR=$(pwd)
-TCDIR=/home/biofrost/Development/Compiler/AOSP-clang
-GASDIR=/home/biofrost/Development/Compiler/gas
+TCDIR=/home/biofrost/Development/Compiler/Neutron
 DTBO=$(pwd)/out/arch/arm64/boot/dtbo.img
 IMAGE=$(pwd)/out/arch/arm64/boot/Image.gz-dtb
 
-# Kernel name/version Variables
+# Naming Variables
 KNAME="Biofrost"
 MIN_HEAD=$(git rev-parse HEAD)
-VERSION="$(cat version)/$(echo ${MIN_HEAD:0:8})"
-export LOCALVERSION="-${KNAME}-$(echo "${VERSION}")"
+export LOCALVERSION="-${KNAME}-$(cat version)-$(echo ${MIN_HEAD:0:8})"
+export ZIP_NAME="${KNAME}-$(cat version)-$(echo ${MIN_HEAD:0:8}).zip"
 
 # GitHub Variables
 export COMMIT_HASH=$(git rev-parse --short HEAD)
@@ -41,15 +39,11 @@ export KBUILD_BUILD_HOST=androidist
 export DEVICE="Realme 5 Series"
 export CODENAME="realme_trinket"
 
-# Zipping Details
-export ZIP_NAME="${KNAME}-$(cat version)-$(echo ${MIN_HEAD:0:8}).zip"
-
 # Telegram Stuffs
-bot_token="bot5129489057:AAF5o-JfQ1iAUp9Min7Jcr9sHPjTpCaIlA8"
 chat_id="-1001736789494"
 
 function sendinfo() {
-    curl -s -X POST "https://api.telegram.org/$bot_token/sendMessage" \
+    curl -s -X POST "https://api.telegram.org/bot5129489057:AAF5o-JfQ1iAUp9Min7Jcr9sHPjTpCaIlA8/sendMessage" \
         -d chat_id="$chat_id" \
         -d "disable_web_page_preview=true" \
         -d "parse_mode=html" \
@@ -58,14 +52,14 @@ function sendinfo() {
 function push() {
     cd AnyKernel
     ZIP=$(echo *.zip)
-    curl -F document=@$ZIP "https://api.telegram.org/$bot_token/sendDocument" \
+    curl -F document=@$ZIP "https://api.telegram.org/bot5129489057:AAF5o-JfQ1iAUp9Min7Jcr9sHPjTpCaIlA8/sendDocument" \
         -F chat_id="$chat_id" \
         -F "disable_web_page_preview=true" \
         -F "parse_mode=html" \
         -F caption="Build took $(($DIFF / 60)) minutes and $(($DIFF % 60)) seconds. | <b>Compiled with: ${COMPILER_NAME} + ${LINKER_NAME}.</b>"
 }
 function finerr() {
-    curl -s -X POST "https://api.telegram.org/$bot_token/sendMessage" \
+    curl -s -X POST "https://api.telegram.org/bot5129489057:AAF5o-JfQ1iAUp9Min7Jcr9sHPjTpCaIlA8/sendMessage" \
         -d chat_id="$chat_id" \
         -d "disable_web_page_preview=true" \
         -d "parse_mode=html" \
@@ -74,9 +68,8 @@ function finerr() {
 }
 function compile() {
     make O=out ARCH=arm64 biofrost_defconfig
-    export PATH="${TCDIR}/bin:${GASDIR}:${PATH}"
+    export PATH=${TCDIR}/bin/:/usr/bin/:${PATH}
     export CROSS_COMPILE=aarch64-linux-gnu-
-    export CLANG_TRIPLE=aarch64-linux-gnu-
     export CROSS_COMPILE_ARM32=arm-linux-gnueabi-
     make -j$(nproc --all) O=out LLVM=1 LLVM-IAS=1 \
 

@@ -23,7 +23,7 @@ IMAGE=$(pwd)/out/arch/arm64/boot/Image.gz-dtb
 # Naming Variables
 KNAME="Biofrost"
 MIN_HEAD=$(git rev-parse HEAD)
-export LOCALVERSION="-${KNAME}-$(cat version)-$(echo ${MIN_HEAD:0:8})"
+export LOCALVERSION="-${KNAME}-$(cat version)"
 export ZIP_NAME="${KNAME}-$(cat version)-$(echo ${MIN_HEAD:0:8}).zip"
 
 # GitHub Variables

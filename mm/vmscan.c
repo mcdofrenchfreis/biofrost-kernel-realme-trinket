@@ -167,6 +167,11 @@ int kswapd_threads_current = DEF_KSWAPD_THREADS_PER_NODE;
  */
 int vm_swappiness = 60;
 /*
+ * Direct reclaim swappiness, values range from 0 .. 60. Higher means more swappy.
+ */
+int direct_vm_swappiness = 60;
+
+/*
  * The total number of pages which are beyond the high watermark within all
  * zones.
  */
@@ -1854,6 +1859,8 @@ putback_inactive_pages(struct lruvec *lruvec, struct list_head *page_list)
  */
 static int current_may_throttle(void)
 {
+	if ((current->signal->oom_score_adj < 0))
+		return 0;
 	return !(current->flags & PF_LESS_THROTTLE) ||
 		current->backing_dev_info == NULL ||
 		bdi_write_congested(current->backing_dev_info);
@@ -2249,14 +2256,8 @@ static bool inactive_list_is_low(struct lruvec *lruvec, bool file,
 		inactive_ratio = 0;
 	} else {
 		gb = (inactive + active) >> (30 - PAGE_SHIFT);
-#ifdef CONFIG_PRODUCT_REALME_TRINKET
-/*Huacai.Zhou@PSW.BSP.Kernel.MM, 2018-04-28, fix direct reclaim slow issue*/
 		if (gb && file)
 			inactive_ratio = min(2UL, int_sqrt(10 * gb));
-#else
-		if (gb)
-			inactive_ratio = int_sqrt(10 * gb);
-#endif /*CONFIG_PRODUCT_REALME_TRINKET*/
 		else
 			inactive_ratio = 1;
 	}
@@ -2312,12 +2313,7 @@ static void get_scan_count(struct lruvec *lruvec, struct mem_cgroup *memcg,
 	unsigned long anon, file;
 	unsigned long ap, fp;
 	enum lru_list lru;
-	/* If we have no swap space, do not bother scanning anon pages. */
-#ifndef CONFIG_PRODUCT_REALME_TRINKET //yixue.ge@psw.bsp.kernel.driver 20170810 modify for reserver some zram disk size
-	if (!sc->may_swap || mem_cgroup_get_nr_swap_pages(memcg) <= 0) {
-#else
 	if (!sc->may_swap || (mem_cgroup_get_nr_swap_pages(memcg) <= total_swap_pages>>6)) {
-#endif
 		scan_balance = SCAN_FILE;
 		goto out;
 	}

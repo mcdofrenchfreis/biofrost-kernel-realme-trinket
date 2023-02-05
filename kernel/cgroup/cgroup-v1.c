@@ -515,8 +515,8 @@ static ssize_t __cgroup1_procs_write(struct kernfs_open_file *of,
 	struct task_struct *task;
 	const struct cred *cred, *tcred;
 	ssize_t ret;
-    unsigned int period = 200;
-	unsigned int multi = 100;
+	unsigned int multi;
+    unsigned int period;
 
 	cgrp = cgroup_kn_lock_live(of->kn, false);
 	if (!cgrp)
@@ -542,17 +542,8 @@ static ssize_t __cgroup1_procs_write(struct kernfs_open_file *of,
 	if (ret)
 		goto out_finish;
 
-        switch (kp_active_mode()) {
-        case 0:
-        case 2:
-				multi = 150;
-                period = 300;
-                break;
-        case 3:
-				multi = 250;
-                period = 500;
-                break;
-        }
+	multi = (kp_active_mode() == 2) ? 150 : (kp_active_mode() == 3) ? 250 : 100;
+	period = (kp_active_mode() == 2) ? 300 : (kp_active_mode() == 3) ? 500 : 200;
 
 	ret = cgroup_attach_task(cgrp, task, threadgroup);
 

@@ -2200,20 +2200,11 @@ long _do_fork(unsigned long clone_flags,
 	struct task_struct *p;
 	int trace = 0;
 	long nr;
-	unsigned int multi = 15;
-	unsigned int period = 30;
+	unsigned int multi;
+	unsigned int period;
 
-	switch (kp_active_mode()) {
-	case 0:
-	case 2:
-		multi = 25;
-		period = 50;
-		break;
-	case 3:
-		multi = 50;
-		period = 100;
-		break;
-	}
+	multi = (kp_active_mode() == 2) ? 25 : (kp_active_mode() == 3) ? 50 : 15;
+	period = (kp_active_mode() == 2) ? 50 : (kp_active_mode() == 3) ? 100 : 30;
 
 	/* Boost DDR bus to the max when userspace launches an app */
 	if (task_is_zygote(current)) {

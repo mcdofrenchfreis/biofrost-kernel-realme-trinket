@@ -2236,8 +2236,8 @@ static int __drm_mode_atomic_ioctl(struct drm_device *dev, void *data,
 	unsigned plane_mask;
 	int ret = 0;
 	unsigned int i, j, num_fences;
-	unsigned int multi = 15;
-	unsigned int period = 30;
+	unsigned int multi;
+	unsigned int period;
 
 	/* disallow for drivers not supporting atomic: */
 	if (!drm_core_check_feature(dev, DRIVER_ATOMIC))
@@ -2265,17 +2265,8 @@ static int __drm_mode_atomic_ioctl(struct drm_device *dev, void *data,
 			(arg->flags & DRM_MODE_PAGE_FLIP_EVENT))
 		return -EINVAL;
 
-	switch (kp_active_mode()) {
-	case 0:
-	case 2:
-		multi = 25;
-		period = 50;
-		break;
-	case 3:
-		multi = 50;
-		period = 100;
-		break;
-	}
+	multi = (kp_active_mode() == 2) ? 25 : (kp_active_mode() == 3) ? 50 : 15;
+	period = (kp_active_mode() == 2) ? 50 : (kp_active_mode() == 3) ? 100 : 30;
 
 	/* Boost DDR Bus according to kernel profile set */
 	if (!(arg->flags & DRM_MODE_ATOMIC_TEST_ONLY)) {

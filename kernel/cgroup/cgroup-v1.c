@@ -544,8 +544,8 @@ static ssize_t __cgroup1_procs_write(struct kernfs_open_file *of,
 	if (!ret && !threadgroup &&
 		!memcmp(of->kn->parent->name, "top-app", sizeof("top-app")) &&
 		task_is_zygote(task->parent)) {
-		cpu_input_boost_kick_max(50);
-		devfreq_boost_kick_max(DEVFREQ_CPU_DDR_BW, 50);
+		cpu_input_boost_kick_max(200);
+		devfreq_boost_kick_max(DEVFREQ_CPU_DDR_BW, 200);
 	}
 
 out_finish:

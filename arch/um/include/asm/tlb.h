@@ -156,6 +156,6 @@ static inline void tlb_change_page_size(struct mmu_gather *tlb, unsigned int pag
 
 #define pmd_free_tlb(tlb, pmdp, addr) __pmd_free_tlb(tlb, pmdp, addr)
 
-#define tlb_migrate_finish(mm) do {} while (0)
+#define tlb_migrate_finish(mm) ((void)0)
 
 #endif

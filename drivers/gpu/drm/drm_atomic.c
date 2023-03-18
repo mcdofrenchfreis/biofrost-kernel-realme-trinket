@@ -30,7 +30,6 @@
 #include <drm/drm_atomic.h>
 #include <drm/drm_mode.h>
 #include <drm/drm_print.h>
-#include <linux/cpu_input_boost.h>
 #include <linux/devfreq_boost.h>
 #include <linux/pm_qos.h>
 #include <linux/sync_file.h>
@@ -2263,8 +2262,7 @@ static int __drm_mode_atomic_ioctl(struct drm_device *dev, void *data,
 		return -EINVAL;
 
 	if (!(arg->flags & DRM_MODE_ATOMIC_TEST_ONLY)) {
-	  /* Boost CPU and DDR Bus to the max for 50ms when commiting a frame. */
-		cpu_input_boost_kick_max(50);
+	  /* Boost DDR Bus to the max for 50ms when commiting a frame. */
 		devfreq_boost_kick_max(DEVFREQ_CPU_DDR_BW, 50);
 	}
 

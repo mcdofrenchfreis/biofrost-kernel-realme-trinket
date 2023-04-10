@@ -90,7 +90,8 @@ UTS_TRUNCATE="cut -b -$UTS_LEN"
     LD_VERSION="$LINKER_NAME"
   fi
   
-  printf '#define LINUX_COMPILER "%s"\n' "$CC_VERSION, $LD_VERSION"
+  BUILD_INFO="$BRANCH_NAME"
+  printf '#define LINUX_COMPILER "%s"\n' "$CC_VERSION, $LD_VERSION, $BUILD_INFO"
   ) > .tmpcompile
 
 # Only replace the real compile.h if the new one is different,

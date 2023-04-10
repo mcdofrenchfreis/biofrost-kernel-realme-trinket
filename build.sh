@@ -18,8 +18,8 @@ IMAGE=$(pwd)/out/arch/arm64/boot/Image.gz-dtb
 
 # Naming Variables
 MIN_HEAD=$(git rev-parse HEAD | cut -c 1-7)
-export ZIP_NAME="$(cat version)-${MIN_HEAD}"
-export LOCALVERSION="~$(cat version)"
+export ZIP_NAME="$(cat biofrost-localversion)-${MIN_HEAD}"
+export LOCALVERSION="~$(cat biofrost-localversion)"
 
 # GitHub Variables
 export COMMIT_HASH=$(git rev-parse --short HEAD)

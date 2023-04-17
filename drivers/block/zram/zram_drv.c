@@ -2197,7 +2197,7 @@ static void zram_reset_device(struct zram *zram)
 		return;
 	}
 
-	comp = zram->comp;
+	comp = zram->comps[0];
 	disksize = zram->disksize;
 	zram->disksize = 0;
 

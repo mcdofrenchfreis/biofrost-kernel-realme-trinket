@@ -2650,13 +2650,6 @@ static inline void setup_nr_node_ids(void) {}
 extern int want_old_faultaround_pte;
 
 #ifdef CONFIG_PRODUCT_REALME_TRINKET
-	/* robin.ren@PSW.BSP.Kernel.Performance, 2019-03-13,
-	 * the target reclaimed process
-	 */
-	struct task_struct *reclaimed_task;
-#endif
-
-#ifdef CONFIG_PRODUCT_REALME_TRINKET
 /* Kui.Zhang@PSW.BSP.Kernel.Performance, 2019-01-01,
  * Extract the reclaim core code from task_mmu.c for /proc/process_reclaim*/
 extern ssize_t reclaim_task_write(struct task_struct* task,

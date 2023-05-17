@@ -1004,11 +1004,11 @@ void sde_connector_helper_bridge_enable(struct drm_connector *connector)
 				BL_UPDATE_DELAY_UNTIL_FIRST_FRAME)
 		sde_encoder_wait_for_event(c_conn->encoder,
 				MSM_ENC_TX_COMPLETE);
-//#ifdef ODM_WT_EDIT
-//Hongzhu.Su@ODM_WT.MM.Display.Lcd., Start 2020/03/9, Adjust LCD timing t7 more than 50ms to satisfy spec
-		msleep(15);
-//Hongzhu.Su@ODM_WT.MM.Display.Lcd., End 2020/03/9, Adjust LCD timing t7 more than 50ms to satisfy spec
-//#endif /* ODM_WT_EDIT */
+	//#ifdef ODM_WT_EDIT
+	//Hongzhu.Su@ODM_WT.MM.Display.Lcd., Start 2020/03/9, Adjust LCD timing t7 more than 50ms to satisfy spec
+	msleep(15);
+	//Hongzhu.Su@ODM_WT.MM.Display.Lcd., End 2020/03/9, Adjust LCD timing t7 more than 50ms to satisfy spec
+	//#endif /* ODM_WT_EDIT */
 	c_conn->allow_bl_update = true;
 
 	if (c_conn->bl_device) {

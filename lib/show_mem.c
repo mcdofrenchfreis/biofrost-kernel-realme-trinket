@@ -53,8 +53,4 @@ void show_mem(unsigned int filter, nodemask_t *nodemask)
 #ifdef CONFIG_MEMORY_FAILURE
 	printk("%lu pages hwpoisoned\n", atomic_long_read(&num_poisoned_pages));
 #endif
-#ifdef CONFIG_PRODUCT_REALME_TRINKET
-/* Huacai.Zhou@PSW.BSP.Kernel.MM, 2018-06-26, add ion total used account*/
-	printk("%lu pages ion total used\n", ion_total()>> PAGE_SHIFT);
-#endif /*CONFIG_PRODUCT_REALME_TRINKET*/
 }

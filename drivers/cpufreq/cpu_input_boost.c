@@ -114,7 +114,7 @@ static void __cpu_input_boost_kick(struct boost_drv *b)
 {
 	unsigned int multi;
 
-	if (test_bit(SCREEN_OFF, &b->state))
+	if (test_bit(SCREEN_OFF, &b->state) || kp_active_mode() == 1)
 		return;
 
 	multi = (kp_active_mode() == 2) ? (CONFIG_INPUT_BOOST_DURATION_MS * 1.5) :
@@ -140,7 +140,7 @@ static void __cpu_input_boost_kick_max(struct boost_drv *b,
 	unsigned long boost_jiffies = msecs_to_jiffies(duration_ms);
 	unsigned long curr_expires, new_expires;
 
-	if (test_bit(SCREEN_OFF, &b->state))
+	if (test_bit(SCREEN_OFF, &b->state) || kp_active_mode() == 1)
 		return;
 
 	do {
@@ -222,7 +222,7 @@ static int cpu_notifier_cb(struct notifier_block *nb, unsigned long action,
 		return NOTIFY_OK;
 
 	/* Unboost when the screen is off */
-	if (test_bit(SCREEN_OFF, &b->state)) {
+	if (test_bit(SCREEN_OFF, &b->state) || kp_active_mode() == 1) {
 		policy->min = get_min_freq(policy);
 		return NOTIFY_OK;
 	}

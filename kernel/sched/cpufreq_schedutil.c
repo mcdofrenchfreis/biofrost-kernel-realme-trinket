@@ -604,17 +604,10 @@ static int sugov_init(struct cpufreq_policy *policy)
 		goto stop_kthread;
 	}
 
-	switch(policy->cpu) {
-	default:
-	case 0:
-	  tunables->up_rate_limit_us = 0;
-	  tunables->down_rate_limit_us = 0;
-	  break;
-	case 4:
-	  tunables->up_rate_limit_us = 0;
-	  tunables->down_rate_limit_us = 0;
-	  break;
-	}
+	tunables->up_rate_limit_us =
+				cpufreq_policy_transition_delay_us(policy);
+	tunables->down_rate_limit_us =
+				cpufreq_policy_transition_delay_us(policy);
 
 	policy->governor_data = sg_policy;
 	sg_policy->tunables = tunables;

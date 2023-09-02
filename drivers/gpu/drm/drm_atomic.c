@@ -2270,7 +2270,7 @@ static int __drm_mode_atomic_ioctl(struct drm_device *dev, void *data,
 
 	/* Boost DDR Bus according to kernel profile set */
 	if (!(arg->flags & DRM_MODE_ATOMIC_TEST_ONLY)) {
-		if (time_before(jiffies, last_input_time + msecs_to_jiffies(3000))) {
+		if (time_before(jiffies, last_input_time + msecs_to_jiffies(7000))) {
 			cpu_input_boost_kick_max(multi);
 			devfreq_boost_kick_max(DEVFREQ_CPU_DDR_BW, period);
 		}

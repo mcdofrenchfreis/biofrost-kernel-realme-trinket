@@ -112,13 +112,14 @@ static void update_online_cpu_policy(void)
 extern int kp_active_mode(void);
 static void __cpu_input_boost_kick(struct boost_drv *b)
 {
-	unsigned int multi = CONFIG_INPUT_BOOST_DURATION_MS;
+	unsigned int multi;
 
 	if (test_bit(SCREEN_OFF, &b->state))
 		return;
 
-	if (kp_active_mode() == 3)
-		multi = CONFIG_INPUT_BOOST_DURATION_MS * 2;
+	multi = (kp_active_mode() == 2) ? (CONFIG_INPUT_BOOST_DURATION_MS * 1.5) :
+		 (kp_active_mode() == 3) ? (CONFIG_INPUT_BOOST_DURATION_MS * 2) :
+		 CONFIG_INPUT_BOOST_DURATION_MS;
 
 	set_bit(INPUT_BOOST, &b->state);
 	if (!mod_delayed_work(system_unbound_wq, &b->input_unboost,

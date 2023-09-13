@@ -2257,16 +2257,16 @@ static inline void walt_update_group_thresholds(void)
 {
 	switch (kp_active_mode()) {
 	case 3:
-		sched_group_upmigrate = pct_to_min_scaled(90);
+		sched_group_upmigrate = pct_to_min_scaled(85);
 		sched_group_downmigrate = pct_to_min_scaled(75);
 		break;
 	case 1:
-		sched_group_upmigrate = pct_to_min_scaled(105);
-		sched_group_downmigrate = pct_to_min_scaled(97);
+		sched_group_upmigrate = pct_to_min_scaled(100);
+		sched_group_downmigrate = pct_to_min_scaled(95);
 		break;
 	default:
-		sched_group_upmigrate = pct_to_min_scaled(95);
-		sched_group_downmigrate = pct_to_min_scaled(85);
+		sched_group_upmigrate = pct_to_min_scaled(98);
+		sched_group_downmigrate = pct_to_min_scaled(90);
 		break;
 	}
 }
@@ -3647,9 +3647,8 @@ static void walt_init_window_dep(void)
 		init_task_load_pct = 15;
 		break;
 	}
-
 	sched_init_task_load_windows =
-		div64_u64((u64)init_task_load_pct *
+			div64_u64((u64)5 *
 			  (u64)sched_ravg_window, 100);
 	sched_init_task_load_windows_scaled =
 		scale_demand(sched_init_task_load_windows);

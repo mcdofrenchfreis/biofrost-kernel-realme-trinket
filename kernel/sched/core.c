@@ -781,14 +781,11 @@ static void set_load_weight(struct task_struct *p)
  */
 static DEFINE_MUTEX(uclamp_mutex);
 
-/*
- * Minimum utilization for all tasks
- * default: 0
- */
-unsigned int sysctl_sched_uclamp_util_min;
+/* Max allowed minimum utilization */
+unsigned int sysctl_sched_uclamp_util_min = SCHED_CAPACITY_SCALE;
 
 /* Max allowed maximum utilization */
-unsigned int sysctl_sched_uclamp_util_max = 100;
+unsigned int sysctl_sched_uclamp_util_max = SCHED_CAPACITY_SCALE;
 
 /*
  * Ignore uclamp_max for tasks if
@@ -1323,7 +1320,7 @@ int sysctl_sched_uclamp_handler(struct ctl_table *table, int write,
 {
 	bool update_root_tg = false;
 	int old_min, old_max, old_min_rt;
-	int result = 0;
+	int result;
 
 	mutex_lock(&uclamp_mutex);
 	old_min = sysctl_sched_uclamp_util_min;

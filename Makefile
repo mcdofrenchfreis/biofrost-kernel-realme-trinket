@@ -755,6 +755,10 @@ ARCH_AFLAGS :=
 ARCH_CFLAGS :=
 include arch/$(SRCARCH)/Makefile
 
+#Enable MLGO for register allocation.
+KBUILD_CFLAGS   += -mllvm -regalloc-enable-advisor=release
+#Enable hot cold split optimization
+KBUILD_CFLAGS   += -mllvm -hot-cold-split=true
 ifdef CONFIG_LLVM_POLLY
 KBUILD_CFLAGS	+= -mllvm -polly \
 		   -mllvm -polly-ast-use-context \
@@ -876,6 +880,11 @@ endif
 # These warnings generated too much noise in a regular build.
 # Use make W=1 to enable them (see scripts/Makefile.extrawarn)
 KBUILD_CFLAGS += $(call cc-disable-warning, unused-but-set-variable)
+
+ifeq ($(ld-name),lld)
+LDFLAGS += -mllvm -regalloc-enable-advisor=release
+endif
+
 KBUILD_CFLAGS += $(call cc-disable-warning, unused-const-variable)
 ifdef CONFIG_FRAME_POINTER
 KBUILD_CFLAGS	+= -fno-omit-frame-pointer -fno-optimize-sibling-calls

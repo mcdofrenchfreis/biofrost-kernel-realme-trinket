@@ -97,6 +97,7 @@
 
 #include <linux/cpu_input_boost.h>
 #include <linux/devfreq_boost.h>
+#include <linux/irq.h>
 #include <asm/pgtable.h>
 #include <asm/pgalloc.h>
 #include <linux/uaccess.h>
@@ -2210,6 +2211,7 @@ long _do_fork(unsigned long clone_flags,
 	if (task_is_zygote(current)) {
 		cpu_input_boost_kick_max(multi);
 		devfreq_boost_kick_max(DEVFREQ_CPU_DDR_BW, period);
+		balance_irqs();
 	}
 
 	/*

@@ -41,28 +41,16 @@ export DISTRO=$(source /etc/os-release && echo "${NAME}")
 CI_ID="-1001736789494"
 BOT_ID="5129489057:AAF5o-JfQ1iAUp9Min7Jcr9sHPjTpCaIlA8"
 
-sendinfo() {
-    kernel_version=$(make kernelversion 2>/dev/null)
-    commit_details=$(git log --pretty=format:'%s' -1)
-    message="<b>Laboratory Machine || CI Build Triggered</b>
-<b>Docker: </b><code>${DISTRO}</code>
-<b>Build Date: </b><code>${DATE}</code>
-<b>Device: </b><code>${DEVICE} (${CODENAME})</code>
-<b>Build Type: </b><code>${BUILD_TYPE}</code>
-<b>Kernel Version: </b><code>${kernel_version}</code>
-<b>Compiler: </b><code>${COMPILER_NAME}</code>
-<b>Linker: </b><code>${LINKER_NAME}</code>
-<b>Zip Name: </b><code>${ZIP_NAME}</code>
-<b>Branch: </b><code>${BRANCH_NAME} (head)</code>
-<b>Top Commit: </b><a href='${REPO_URL}/commit/${COMMIT_HASH}'>${COMMIT_HASH}</a>
-<code>(${commit_details})</code>"
-    curl -s -X POST "https://api.telegram.org/bot${BOT_ID}/sendMessage" \
-        -d chat_id="$CI_ID" \
-        -d "disable_web_page_preview=true" \
-        -d "parse_mode=html" \
-        -d text="$message"
+function sendinfo() {
+  kernel_version=$(make kernelversion 2>/dev/null)
+  commit_details=$(git log --pretty=format:'%s' -1)
+  message="<b>Laboratory Machine || CI Build Triggered</b>%0A<b>Docker: </b><code>${DISTRO}</code>%0A<b>Build Date: </b><code>${DATE}</code>%0A<b>Device: </b><code>${DEVICE} (${CODENAME})</code>%0A<b>Build Type: </b><code>${BUILD_TYPE}</code>%0A<b>Kernel Version: </b><code>${kernel_version}</code>%0A<b>Compiler: </b><code>${COMPILER_NAME}</code>%0A<b>Linker: </b><code>${LINKER_NAME}</code>%0A<b>Zip Name: </b><code>${ZIP_NAME}</code>%0A<b>Branch: </b><code>${BRANCH_NAME} (head)</code>%0A<b>Top Commit: </b><a href='${REPO_URL}/commit/${COMMIT_HASH}'>${COMMIT_HASH}</a>%0A<code>(${commit_details})</code>"
+  curl -s -X POST "https://api.telegram.org/bot${BOT_ID}/sendMessage" \
+    -d chat_id="$CI_ID" \
+    -d "disable_web_page_preview=true" \
+    -d "parse_mode=html" \
+    -d text="$message"
 }
-
 function push() {
     ZIP=$(find AnyKernel -maxdepth 1 -name '*.zip' -type f -printf '%T@ %p\n' | sort -n | tail -1 | awk '{print $2}')
     MD5CHECKSUM=$(md5sum "$ZIP" | cut -d' ' -f1)
@@ -72,7 +60,6 @@ function push() {
         -F "parse_mode=html" \
         -F caption="Build took $(($DIFF / 60)) minutes and $(($DIFF % 60)) seconds. | <b>Compiled with ${COMPILER_NAME}</b> | <b>MD5 Checksum: </b><code>${MD5CHECKSUM}</code>."
 }
-
 function finerr() {
     curl -s -X POST "https://api.telegram.org/bot${BOT_ID}/sendMessage" \
         -d chat_id="$CI_ID" \
@@ -81,7 +68,6 @@ function finerr() {
         -d text="Compilation failed, please check build logs for errors."
     exit 1
 }
-
 function compile() {
     make O=out ARCH=arm64 biofrost_defconfig
     export PATH="${TCDIR}/bin:${PATH}"
@@ -96,7 +82,6 @@ function compile() {
     cp out/arch/arm64/boot/Image.gz-dtb AnyKernel
     cp out/arch/arm64/boot/dtbo.img AnyKernel
 }
-
 function zipping() {
     cd AnyKernel || exit 1
     zip -r9 "$ZIP_NAME".zip . -x ".git*" -x "README.md" -x "LICENSE" -x "*.zip"

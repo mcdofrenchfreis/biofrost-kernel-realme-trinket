@@ -41,6 +41,11 @@ static DEFINE_SPINLOCK(tz_lock);
  * frame length, but less than the idle timer.
  */
 #define CEILING			50000
+/*
+ * optimized ceiling to benefit gpu processing with quick drops in utilization
+ * example being gpu accelerated encoding
+ */
+#define CEILING_OPT		33500
 #define TZ_RESET_ID		0x3
 #define TZ_UPDATE_ID		0x4
 #define TZ_INIT_ID		0x6
@@ -345,6 +350,7 @@ static inline int devfreq_get_freq_level(struct devfreq *devfreq,
 	return -EINVAL;
 }
 
+extern int kp_active_mode(void);
 static int tz_get_target_freq(struct devfreq *devfreq, unsigned long *freq)
 {
 	int result = 0;
@@ -357,6 +363,7 @@ static int tz_get_target_freq(struct devfreq *devfreq, unsigned long *freq)
 	int last_level = priv->bin.last_level;
 #endif
 	int loc_adrenoboost = adrenoboost;
+	unsigned int ceiling = CEILING_OPT;
 	/* keeps stats.private_data == NULL   */
 	result = devfreq->profile->get_dev_status(devfreq->dev.parent, &stats);
 	if (result) {
@@ -410,12 +417,15 @@ static int tz_get_target_freq(struct devfreq *devfreq, unsigned long *freq)
 		priv->bin.last_level = level;
 	}
 
+	if (kp_active_mode() == 1)
+		ceiling = CEILING;
+
 	/*
 	 * If there is an extended block of busy processing,
 	 * increase frequency.  Otherwise run the normal algorithm.
 	 */
 	if (!priv->disable_busy_time_burst &&
-			priv->bin.busy_time > CEILING) {
+			priv->bin.busy_time > ceiling) {
 		val = -1 * level;
 	} else {
 

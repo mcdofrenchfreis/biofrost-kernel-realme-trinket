@@ -755,6 +755,8 @@ ARCH_AFLAGS :=
 ARCH_CFLAGS :=
 include arch/$(SRCARCH)/Makefile
 
+#Enable fast FMA optimizations
+KBUILD_CFLAGS   += -ffp-contract=fast
 #Enable MLGO for register allocation.
 KBUILD_CFLAGS   += -mllvm -regalloc-enable-advisor=release
 #Enable hot cold split optimization

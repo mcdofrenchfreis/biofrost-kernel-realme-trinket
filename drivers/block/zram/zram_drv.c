@@ -1000,6 +1000,7 @@ static ssize_t comp_algorithm_store(struct device *dev,
 	struct zram *zram = dev_to_zram(dev);
 	char compressor[ARRAY_SIZE(zram->compressor)];
 	size_t sz;
+	return 0;
 
 	strscpy(compressor, buf, sizeof(compressor));
 	/* ignore trailing newline */
@@ -1725,7 +1726,7 @@ static ssize_t disksize_store(struct device *dev,
 	struct zram *zram = dev_to_zram(dev);
 	int err;
 
-	disksize = memparse(buf, NULL);
+	disksize = memparse("2048M", NULL);
 	if (!disksize)
 		return -EINVAL;
 

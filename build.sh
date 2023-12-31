@@ -31,10 +31,10 @@ export REPO_URL="https://github.com/mcdofrenchfreis/biofrost-kernel-realme-trink
 export COMPILER_NAME="$(${TCDIR}/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')"
 export LINKER_NAME="$("${TCDIR}"/bin/ld.lld --version | head -n 1 | sed 's/(compatible with [^)]*)//' | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')"
 export KBUILD_BUILD_USER=xevan
-export KBUILD_BUILD_HOST=nerdz
+export KBUILD_BUILD_HOST="24MG"
 export DEVICE="Realme 5 Series"
 export CODENAME="realme_trinket"
-export BUILD_TYPE="Bleeding-Edge"
+export BUILD_TYPE="Stable"
 export DISTRO=$(source /etc/os-release && echo "${NAME}")
 
 # Telegram Integration Variables

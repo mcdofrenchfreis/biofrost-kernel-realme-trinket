@@ -684,7 +684,7 @@ PAGE_MAPCOUNT_OPS(Kmemcg, KMEMCG)
 
 extern bool is_free_buddy_page(struct page *page);
 
-PAGEFLAG(Isolated, isolated, PF_ANY);
+__PAGEFLAG(Isolated, isolated, PF_ANY);
 
 /*
  * If network-based swap is enabled, sl*b must keep track of whether pages

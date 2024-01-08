@@ -21,7 +21,6 @@
 
 #ifndef __ASSEMBLY__
 
-#include <linux/mm_types.h>
 #include <linux/sched.h>
 #include <asm/cputype.h>
 #include <asm/mmu.h>
@@ -135,20 +134,14 @@ static inline void flush_tlb_mm(struct mm_struct *mm)
 	dsb(ish);
 }
 
-static inline void flush_tlb_page_nosync(struct vm_area_struct *vma,
-					 unsigned long uaddr)
+static inline void flush_tlb_page(struct vm_area_struct *vma,
+				  unsigned long uaddr)
 {
 	unsigned long addr = __TLBI_VADDR(uaddr, ASID(vma->vm_mm));
 
 	dsb(ishst);
 	__tlbi(vale1is, addr);
 	__tlbi_user(vale1is, addr);
-}
-
-static inline void flush_tlb_page(struct vm_area_struct *vma,
-				  unsigned long uaddr)
-{
-	flush_tlb_page_nosync(vma, uaddr);
 	dsb(ish);
 }
 
@@ -156,31 +149,25 @@ static inline void flush_tlb_page(struct vm_area_struct *vma,
  * This is meant to avoid soft lock-ups on large TLB flushing ranges and not
  * necessarily a performance improvement.
  */
-#define MAX_TLBI_OPS	PTRS_PER_PTE
+#define MAX_TLB_RANGE	(1024UL << PAGE_SHIFT)
 
 static inline void __flush_tlb_range(struct vm_area_struct *vma,
 				     unsigned long start, unsigned long end,
-				     unsigned long stride, bool last_level)
+				     bool last_level)
 {
 	unsigned long asid = ASID(vma->vm_mm);
 	unsigned long addr;
 
-	start = round_down(start, stride);
-	end = round_up(end, stride);
-
-	if ((end - start) >= (MAX_TLBI_OPS * stride)) {
+	if ((end - start) > MAX_TLB_RANGE) {
 		flush_tlb_mm(vma->vm_mm);
 		return;
 	}
-
-	/* Convert the stride into units of 4k */
-	stride >>= 12;
 
 	start = __TLBI_VADDR(start, asid);
 	end = __TLBI_VADDR(end, asid);
 
 	dsb(ishst);
-	for (addr = start; addr < end; addr += stride) {
+	for (addr = start; addr < end; addr += 1 << (PAGE_SHIFT - 12)) {
 		if (last_level) {
 			__tlbi(vale1is, addr);
 			__tlbi_user(vale1is, addr);
@@ -195,14 +182,14 @@ static inline void __flush_tlb_range(struct vm_area_struct *vma,
 static inline void flush_tlb_range(struct vm_area_struct *vma,
 				   unsigned long start, unsigned long end)
 {
-	__flush_tlb_range(vma, start, end, PAGE_SIZE, false);
+	__flush_tlb_range(vma, start, end, false);
 }
 
 static inline void flush_tlb_kernel_range(unsigned long start, unsigned long end)
 {
 	unsigned long addr;
 
-	if ((end - start) > (MAX_TLBI_OPS * PAGE_SIZE)) {
+	if ((end - start) > MAX_TLB_RANGE) {
 		flush_tlb_all();
 		return;
 	}
@@ -212,7 +199,7 @@ static inline void flush_tlb_kernel_range(unsigned long start, unsigned long end
 
 	dsb(ishst);
 	for (addr = start; addr < end; addr += 1 << (PAGE_SHIFT - 12))
-		__tlbi(vaale1is, addr);
+		__tlbi(vaae1is, addr);
 	dsb(ish);
 	isb();
 }
@@ -221,11 +208,20 @@ static inline void flush_tlb_kernel_range(unsigned long start, unsigned long end
  * Used to invalidate the TLB (walk caches) corresponding to intermediate page
  * table levels (pgd/pud/pmd).
  */
+static inline void __flush_tlb_pgtable(struct mm_struct *mm,
+				       unsigned long uaddr)
+{
+	unsigned long addr = __TLBI_VADDR(uaddr, ASID(mm));
+
+	__tlbi(vae1is, addr);
+	__tlbi_user(vae1is, addr);
+	dsb(ish);
+}
+
 static inline void __flush_tlb_kernel_pgtable(unsigned long kaddr)
 {
 	unsigned long addr = __TLBI_VADDR(kaddr, 0);
 
-	dsb(ishst);
 	__tlbi(vaae1is, addr);
 	dsb(ish);
 }

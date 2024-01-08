@@ -16,8 +16,6 @@
 #include <linux/hardirq.h> /* for in_interrupt() */
 #include <linux/hugetlb_inline.h>
 
-struct pagevec;
-
 /*
  * Bits in mapping->flags.
  */
@@ -118,7 +116,7 @@ static inline void mapping_set_gfp_mask(struct address_space *m, gfp_t mask)
 	m->gfp_mask = mask;
 }
 
-void release_pages(struct page **pages, int nr);
+void release_pages(struct page **pages, int nr, bool cold);
 
 /*
  * speculatively take a reference to a page.
@@ -234,9 +232,15 @@ static inline struct page *page_cache_alloc(struct address_space *x)
 	return __page_cache_alloc(mapping_gfp_mask(x));
 }
 
+static inline struct page *page_cache_alloc_cold(struct address_space *x)
+{
+	return __page_cache_alloc(mapping_gfp_mask(x)|__GFP_COLD);
+}
+
 static inline gfp_t readahead_gfp_mask(struct address_space *x)
 {
-	return mapping_gfp_mask(x) | __GFP_NORETRY | __GFP_NOWARN;
+	return mapping_gfp_mask(x) |
+				  __GFP_COLD | __GFP_NORETRY | __GFP_NOWARN;
 }
 
 typedef int filler_t(struct file *, struct page *);
@@ -621,8 +625,6 @@ int add_to_page_cache_lru(struct page *page, struct address_space *mapping,
 extern void delete_from_page_cache(struct page *page);
 extern void __delete_from_page_cache(struct page *page, void *shadow);
 int replace_page_cache_page(struct page *old, struct page *new, gfp_t gfp_mask);
-void delete_from_page_cache_batch(struct address_space *mapping,
-				  struct pagevec *pvec);
 
 /*
  * Like add_to_page_cache_locked, but used to add newly allocated pages:

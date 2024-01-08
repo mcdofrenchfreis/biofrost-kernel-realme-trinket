@@ -34,7 +34,7 @@
 #include <linux/page_counter.h>
 #include <linux/memcontrol.h>
 #include <linux/cgroup.h>
-#include <linux/pagewalk.h>
+#include <linux/mm.h>
 #include <linux/sched/mm.h>
 #include <linux/shmem_fs.h>
 #include <linux/hugetlb.h>
@@ -2122,7 +2122,7 @@ static void lock_page_lru(struct page *page, int *isolated)
 
 		lruvec = mem_cgroup_page_lruvec(page, zone->zone_pgdat);
 		ClearPageLRU(page);
-		del_page_from_lru_list(page, lruvec);
+		del_page_from_lru_list(page, lruvec, page_lru(page));
 		*isolated = 1;
 	} else
 		*isolated = 0;
@@ -2138,7 +2138,7 @@ static void unlock_page_lru(struct page *page, int isolated)
 		lruvec = mem_cgroup_page_lruvec(page, zone->zone_pgdat);
 		VM_BUG_ON_PAGE(PageLRU(page), page);
 		SetPageLRU(page);
-		add_page_to_lru_list(page, lruvec);
+		add_page_to_lru_list(page, lruvec, page_lru(page));
 	}
 	spin_unlock_irq(zone_lru_lock(zone));
 }
@@ -3291,8 +3291,8 @@ static int memcg_stat_show(struct seq_file *m, void *v)
 		pg_data_t *pgdat;
 		struct mem_cgroup_per_node *mz;
 		struct zone_reclaim_stat *rstat;
-		unsigned long recent_rotated[ANON_AND_FILE] = {};
-		unsigned long recent_scanned[ANON_AND_FILE] = {};
+		unsigned long recent_rotated[2] = {0, 0};
+		unsigned long recent_scanned[2] = {0, 0};
 
 		for_each_online_pgdat(pgdat) {
 			mz = mem_cgroup_nodeinfo(memcg, pgdat->node_id);
@@ -4831,16 +4831,17 @@ static int mem_cgroup_count_precharge_pte_range(pmd_t *pmd,
 	return 0;
 }
 
-static const struct mm_walk_ops precharge_walk_ops = {
-	.pmd_entry	= mem_cgroup_count_precharge_pte_range,
-};
-
 static unsigned long mem_cgroup_count_precharge(struct mm_struct *mm)
 {
 	unsigned long precharge;
 
+	struct mm_walk mem_cgroup_count_precharge_walk = {
+		.pmd_entry = mem_cgroup_count_precharge_pte_range,
+		.mm = mm,
+	};
 	down_read(&mm->mmap_sem);
-	walk_page_range(mm, 0, mm->highest_vm_end, &precharge_walk_ops, NULL);
+	walk_page_range(0, mm->highest_vm_end,
+			&mem_cgroup_count_precharge_walk);
 	up_read(&mm->mmap_sem);
 
 	precharge = mc.precharge;
@@ -5109,12 +5110,13 @@ put:			/* get_mctgt_type() gets the page */
 	return ret;
 }
 
-static const struct mm_walk_ops charge_walk_ops = {
-	.pmd_entry	= mem_cgroup_move_charge_pte_range,
-};
-
 static void mem_cgroup_move_charge(void)
 {
+	struct mm_walk mem_cgroup_move_charge_walk = {
+		.pmd_entry = mem_cgroup_move_charge_pte_range,
+		.mm = mc.mm,
+	};
+
 	lru_add_drain_all();
 	/*
 	 * Signal lock_page_memcg() to take the memcg's move_lock
@@ -5140,8 +5142,7 @@ retry:
 	 * When we have consumed all precharges and failed in doing
 	 * additional charge, the page walk just aborts.
 	 */
-	walk_page_range(mc.mm, 0, mc.mm->highest_vm_end, &charge_walk_ops,
-			NULL);
+	walk_page_range(0, mc.mm->highest_vm_end, &mem_cgroup_move_charge_walk);
 
 	up_read(&mc.mm->mmap_sem);
 	atomic_dec(&mc.from->moving_account);

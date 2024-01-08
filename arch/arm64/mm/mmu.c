@@ -113,7 +113,7 @@ pgprot_t phys_mem_access_prot(struct file *file, unsigned long pfn,
 }
 EXPORT_SYMBOL(phys_mem_access_prot);
 
-static phys_addr_t __init early_pgtable_alloc(int shift)
+static phys_addr_t __init early_pgtable_alloc(void)
 {
 	phys_addr_t phys;
 	void *ptr;
@@ -187,7 +187,7 @@ static void init_pte(pmd_t *pmd, unsigned long addr, unsigned long end,
 static void alloc_init_cont_pte(pmd_t *pmd, unsigned long addr,
 				unsigned long end, phys_addr_t phys,
 				pgprot_t prot,
-				phys_addr_t (*pgtable_alloc)(int),
+				phys_addr_t (*pgtable_alloc)(void),
 				int flags)
 {
 	unsigned long next;
@@ -196,7 +196,7 @@ static void alloc_init_cont_pte(pmd_t *pmd, unsigned long addr,
 	if (pmd_none(*pmd)) {
 		phys_addr_t pte_phys;
 		BUG_ON(!pgtable_alloc);
-		pte_phys = pgtable_alloc(PAGE_SHIFT);
+		pte_phys = pgtable_alloc();
 		__pmd_populate(pmd, pte_phys, PMD_TYPE_TABLE);
 	}
 	BUG_ON(pmd_bad(*pmd));
@@ -219,7 +219,7 @@ static void alloc_init_cont_pte(pmd_t *pmd, unsigned long addr,
 
 static void init_pmd(pud_t *pud, unsigned long addr, unsigned long end,
 		     phys_addr_t phys, pgprot_t prot,
-		     phys_addr_t (*pgtable_alloc)(int), int flags)
+		     phys_addr_t (*pgtable_alloc)(void), int flags)
 {
 	unsigned long next;
 	pmd_t *pmd;
@@ -258,7 +258,7 @@ static void init_pmd(pud_t *pud, unsigned long addr, unsigned long end,
 static void alloc_init_cont_pmd(pud_t *pud, unsigned long addr,
 				unsigned long end, phys_addr_t phys,
 				pgprot_t prot,
-				phys_addr_t (*pgtable_alloc)(int), int flags)
+				phys_addr_t (*pgtable_alloc)(void), int flags)
 {
 	unsigned long next;
 
@@ -269,7 +269,7 @@ static void alloc_init_cont_pmd(pud_t *pud, unsigned long addr,
 	if (pud_none(*pud)) {
 		phys_addr_t pmd_phys;
 		BUG_ON(!pgtable_alloc);
-		pmd_phys = pgtable_alloc(PMD_SHIFT);
+		pmd_phys = pgtable_alloc();
 		__pud_populate(pud, pmd_phys, PUD_TYPE_TABLE);
 	}
 	BUG_ON(pud_bad(*pud));
@@ -304,7 +304,7 @@ static inline bool use_1G_block(unsigned long addr, unsigned long next,
 
 static void alloc_init_pud(pgd_t *pgd, unsigned long addr, unsigned long end,
 				  phys_addr_t phys, pgprot_t prot,
-				  phys_addr_t (*pgtable_alloc)(int),
+				  phys_addr_t (*pgtable_alloc)(void),
 				  int flags)
 {
 	pud_t *pud;
@@ -313,7 +313,7 @@ static void alloc_init_pud(pgd_t *pgd, unsigned long addr, unsigned long end,
 	if (pgd_none(*pgd)) {
 		phys_addr_t pud_phys;
 		BUG_ON(!pgtable_alloc);
-		pud_phys = pgtable_alloc(PUD_SHIFT);
+		pud_phys = pgtable_alloc();
 		__pgd_populate(pgd, pud_phys, PUD_TYPE_TABLE);
 	}
 	BUG_ON(pgd_bad(*pgd));
@@ -354,7 +354,7 @@ static void alloc_init_pud(pgd_t *pgd, unsigned long addr, unsigned long end,
 static void __create_pgd_mapping(pgd_t *pgdir, phys_addr_t phys,
 				 unsigned long virt, phys_addr_t size,
 				 pgprot_t prot,
-				 phys_addr_t (*pgtable_alloc)(int),
+				 phys_addr_t (*pgtable_alloc)(void),
 				 int flags)
 {
 	unsigned long addr, length, end, next;
@@ -380,23 +380,11 @@ static void __create_pgd_mapping(pgd_t *pgdir, phys_addr_t phys,
 	} while (pgd++, addr = next, addr != end);
 }
 
-static phys_addr_t pgd_pgtable_alloc(int shift)
+static phys_addr_t pgd_pgtable_alloc(void)
 {
 	void *ptr = (void *)__get_free_page(PGALLOC_GFP);
-	BUG_ON(!ptr);
-
-	/*
-	 * Call proper page table ctor in case later we need to
-	 * call core mm functions like apply_to_page_range() on
-	 * this pre-allocated page table.
-	 *
-	 * We don't select ARCH_ENABLE_SPLIT_PMD_PTLOCK if pmd is
-	 * folded, and if so pgtable_pmd_page_ctor() becomes nop.
-	 */
-	if (shift == PAGE_SHIFT)
-		BUG_ON(!pgtable_page_ctor(virt_to_page(ptr)));
-	else if (shift == PMD_SHIFT)
-		BUG_ON(!pgtable_pmd_page_ctor(virt_to_page(ptr)));
+	if (!ptr || !pgtable_page_ctor(virt_to_page(ptr)))
+		BUG();
 
 	/* Ensure the zeroed page is visible to the page table walker */
 	dsb(ishst);
@@ -589,16 +577,6 @@ static int __init parse_rodata(char *arg)
 early_param("rodata", parse_rodata);
 
 #ifdef CONFIG_UNMAP_KERNEL_AT_EL0
-static phys_addr_t pgd_kernel_pgtable_alloc(int shift)
-{
-        void *ptr = (void *)__get_free_page(PGALLOC_GFP);
-        BUG_ON(!ptr);
-
-        /* Ensure the zeroed page is visible to the page table walker */
-        dsb(ishst);
-        return __pa(ptr);
-}
-
 static int __init map_entry_trampoline(void)
 {
 	extern char __entry_tramp_text_start[];
@@ -612,7 +590,7 @@ static int __init map_entry_trampoline(void)
 	/* Map only the text into the trampoline page table */
 	memset(tramp_pg_dir, 0, PGD_SIZE);
 	__create_pgd_mapping(tramp_pg_dir, pa_start, TRAMP_VALIAS, PAGE_SIZE,
-			     prot, pgd_kernel_pgtable_alloc, 0);
+			     prot, pgd_pgtable_alloc, 0);
 
 	/* Map both the text and data into the kernel page table */
 	__set_fixmap(FIX_ENTRY_TRAMP_TEXT, pa_start, prot);
@@ -690,7 +668,7 @@ static void __init map_kernel(pgd_t *pgd)
  */
 void __init paging_init(void)
 {
-	phys_addr_t pgd_phys = early_pgtable_alloc(PAGE_SHIFT);
+	phys_addr_t pgd_phys = early_pgtable_alloc();
 	pgd_t *pgd = pgd_set_fixmap(pgd_phys);
 
 	map_kernel(pgd);

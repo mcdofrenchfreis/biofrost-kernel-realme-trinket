@@ -37,7 +37,6 @@
 #include <linux/hugetlb.h>
 #include <linux/hugetlb_cgroup.h>
 #include <linux/gfp.h>
-#include <linux/pagewalk.h>
 #include <linux/pfn_t.h>
 #include <linux/memremap.h>
 #include <linux/userfaultfd_k.h>
@@ -129,7 +128,7 @@ int isolate_movable_page(struct page *page, isolate_mode_t mode)
 
 	/* Driver shouldn't use PG_isolated bit of page->flags */
 	WARN_ON_ONCE(PageIsolated(page));
-	SetPageIsolated(page);
+	__SetPageIsolated(page);
 	unlock_page(page);
 
 	return 0;
@@ -153,7 +152,7 @@ void putback_movable_page(struct page *page)
 
 	mapping = page_mapping(page);
 	mapping->a_ops->putback_page(page);
-	ClearPageIsolated(page);
+	__ClearPageIsolated(page);
 }
 
 /*
@@ -186,7 +185,7 @@ void putback_movable_pages(struct list_head *l)
 			if (PageMovable(page))
 				putback_movable_page(page);
 			else
-				ClearPageIsolated(page);
+				__ClearPageIsolated(page);
 			unlock_page(page);
 			put_page(page);
 		} else {
@@ -940,7 +939,7 @@ static int move_to_new_page(struct page *newpage, struct page *page,
 		VM_BUG_ON_PAGE(!PageIsolated(page), page);
 		if (!PageMovable(page)) {
 			rc = MIGRATEPAGE_SUCCESS;
-			ClearPageIsolated(page);
+			__ClearPageIsolated(page);
 			goto out;
 		}
 
@@ -962,7 +961,7 @@ static int move_to_new_page(struct page *newpage, struct page *page,
 			 * We clear PG_movable under page_lock so any compactor
 			 * cannot try to migrate this page.
 			 */
-			ClearPageIsolated(page);
+			__ClearPageIsolated(page);
 		}
 
 		/*
@@ -1091,7 +1090,7 @@ static int __unmap_and_move(struct page *page, struct page *newpage,
 		VM_BUG_ON_PAGE(PageAnon(page) && !PageKsm(page) && !anon_vma,
 				page);
 		try_to_unmap(page,
-			TTU_MIGRATION|TTU_IGNORE_MLOCK|TTU_IGNORE_ACCESS);
+			TTU_MIGRATION|TTU_IGNORE_MLOCK|TTU_IGNORE_ACCESS, NULL);
 		page_was_mapped = 1;
 	}
 
@@ -1164,7 +1163,7 @@ static ICE_noinline int unmap_and_move(new_page_t get_new_page,
 		if (unlikely(__PageMovable(page))) {
 			lock_page(page);
 			if (!PageMovable(page))
-				ClearPageIsolated(page);
+				__ClearPageIsolated(page);
 			unlock_page(page);
 		}
 		if (put_new_page)
@@ -1233,7 +1232,7 @@ out:
 			if (PageMovable(page))
 				putback_movable_page(page);
 			else
-				ClearPageIsolated(page);
+				__ClearPageIsolated(page);
 			unlock_page(page);
 			put_page(page);
 		}
@@ -1329,7 +1328,7 @@ static int unmap_and_move_huge_page(new_page_t get_new_page,
 
 	if (page_mapped(hpage)) {
 		try_to_unmap(hpage,
-			TTU_MIGRATION|TTU_IGNORE_MLOCK|TTU_IGNORE_ACCESS);
+			TTU_MIGRATION|TTU_IGNORE_MLOCK|TTU_IGNORE_ACCESS, NULL);
 		page_was_mapped = 1;
 	}
 
@@ -2364,11 +2363,6 @@ next:
 	return 0;
 }
 
-static const struct mm_walk_ops migrate_vma_walk_ops = {
-	.pmd_entry		= migrate_vma_collect_pmd,
-	.pte_hole		= migrate_vma_collect_hole,
-};
-
 /*
  * migrate_vma_collect() - collect pages over a range of virtual addresses
  * @migrate: migrate struct containing all migration information
@@ -2379,16 +2373,25 @@ static const struct mm_walk_ops migrate_vma_walk_ops = {
  */
 static void migrate_vma_collect(struct migrate_vma *migrate)
 {
-	struct mmu_notifier_range range;
+	struct mm_walk mm_walk;
 
-	mmu_notifier_range_init(&range, MMU_NOTIFY_CLEAR, 0, NULL,
-			migrate->vma->vm_mm, migrate->start, migrate->end);
-	mmu_notifier_invalidate_range_start(&range);
+	mm_walk.pmd_entry = migrate_vma_collect_pmd;
+	mm_walk.pte_entry = NULL;
+	mm_walk.pte_hole = migrate_vma_collect_hole;
+	mm_walk.hugetlb_entry = NULL;
+	mm_walk.test_walk = NULL;
+	mm_walk.vma = migrate->vma;
+	mm_walk.mm = migrate->vma->vm_mm;
+	mm_walk.private = migrate;
 
-	walk_page_range(migrate->vma->vm_mm, migrate->start, migrate->end,
-			&migrate_vma_walk_ops, migrate);
+	mmu_notifier_invalidate_range_start(mm_walk.mm,
+					    migrate->start,
+					    migrate->end);
+	walk_page_range(migrate->start, migrate->end, &mm_walk);
+	mmu_notifier_invalidate_range_end(mm_walk.mm,
+					  migrate->start,
+					  migrate->end);
 
-	mmu_notifier_invalidate_range_end(&range);
 	migrate->end = migrate->start + (migrate->npages << PAGE_SHIFT);
 }
 

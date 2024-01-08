@@ -3330,6 +3330,9 @@ static const struct pid_entry tgid_base_stuff[] = {
 	REG("mounts",     S_IRUGO, proc_mounts_operations),
 	REG("mountinfo",  S_IRUGO, proc_mountinfo_operations),
 	REG("mountstats", S_IRUSR, proc_mountstats_operations),
+#ifdef CONFIG_PROCESS_RECLAIM
+	REG("reclaim", 0200, proc_reclaim_operations),
+#endif
 #ifdef CONFIG_PROC_PAGE_MONITOR
 	REG("clear_refs", S_IWUSR, proc_clear_refs_operations),
 	REG("smaps",      S_IRUGO, proc_pid_smaps_operations),
@@ -3410,15 +3413,6 @@ static const struct file_operations proc_tgid_base_operations = {
 	.iterate_shared	= proc_tgid_base_readdir,
 	.llseek		= generic_file_llseek,
 };
-
-struct pid *tgid_pidfd_to_pid(const struct file *file)
-{
-	if (!d_is_dir(file->f_path.dentry) ||
-	    (file->f_op != &proc_tgid_base_operations))
-		return ERR_PTR(-EBADF);
-
-	return proc_pid(file_inode(file));
-}
 
 static struct dentry *proc_tgid_base_lookup(struct inode *dir, struct dentry *dentry, unsigned int flags)
 {

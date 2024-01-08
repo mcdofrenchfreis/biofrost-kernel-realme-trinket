@@ -109,7 +109,7 @@ static bool __munlock_isolate_lru_page(struct page *page, bool getpage)
 		if (getpage)
 			get_page(page);
 		ClearPageLRU(page);
-		del_page_from_lru_list(page, lruvec);
+		del_page_from_lru_list(page, lruvec, page_lru(page));
 		return true;
 	}
 
@@ -289,7 +289,7 @@ static void __munlock_pagevec(struct pagevec *pvec, struct zone *zone)
 	struct pagevec pvec_putback;
 	int pgrescued = 0;
 
-	pagevec_init(&pvec_putback);
+	pagevec_init(&pvec_putback, 0);
 
 	/* Phase 1: page isolation */
 	spin_lock_irq(zone_lru_lock(zone));
@@ -448,7 +448,7 @@ void munlock_vma_pages_range(struct vm_area_struct *vma,
 		struct pagevec pvec;
 		struct zone *zone;
 
-		pagevec_init(&pvec);
+		pagevec_init(&pvec, 0);
 		/*
 		 * Although FOLL_DUMP is intended for get_dump_page(),
 		 * it just so happens that its special treatment of the

@@ -61,9 +61,6 @@
 #define MADV_WIPEONFORK 71		/* Zero memory on fork, child only */
 #define MADV_KEEPONFORK 72		/* Undo MADV_WIPEONFORK */
 
-#define MADV_COLD	20		/* deactivate these pages */
-#define MADV_PAGEOUT	21		/* reclaim these pages */
-
 #define MADV_HWPOISON     100		/* poison a page for testing */
 #define MADV_SOFT_OFFLINE 101		/* soft offline page for testing */
 

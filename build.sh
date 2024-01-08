@@ -34,7 +34,7 @@ export KBUILD_BUILD_USER=xevan
 export KBUILD_BUILD_HOST="24MG"
 export DEVICE="Realme 5 Series"
 export CODENAME="realme_trinket"
-export BUILD_TYPE="Stable"
+export BUILD_TYPE="OBT"
 export DISTRO=$(source /etc/os-release && echo "${NAME}")
 
 # Telegram Integration Variables

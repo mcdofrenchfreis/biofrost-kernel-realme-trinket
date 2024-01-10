@@ -62,6 +62,14 @@ static void patch_flag_remove_flag(char *cmd, const char *flag)
 	}
 }
 
+static void patch_flag_add_flag(char *cmd, const char *flag)
+{
+	const char *wspace = " ";
+
+	strcat(cmd, wspace);
+	strcat(cmd, flag);
+}
+
 static void patch_safetynet_flags(char *cmd)
 {
 	patch_flag_set_val(cmd, "androidboot.flash.locked=", "1");
@@ -75,8 +83,9 @@ static void patch_sar_flags(char *cmd)
 	patch_flag_remove_flag(cmd, "root=PARTUUID=");
 	patch_flag_remove_flag(cmd, "rootwait");
 	patch_flag_remove_flag(cmd, "androidboot.realmebootstate=");
-	/* This flag is skip_initramfs, Omit the last 2 characters to avoid getting patched by Magisk */
-	patch_flag_remove_flag(cmd, "skip_initram");
+	/* Add want_initramfs in place of skip_initramfs for Magisk */
+	patch_flag_remove_flag(cmd, "skip_initramf");
+	patch_flag_add_flag(cmd, "want_initramf");
 }
 
 static int __init proc_cmdline_init(void)
@@ -89,7 +98,8 @@ static int __init proc_cmdline_init(void)
 	 */
 	patch_safetynet_flags(new_command_line);
 
-	patch_sar_flags(new_command_line);
+	if (is_super_part)
+		patch_sar_flags(new_command_line);
 
 	proc_create("cmdline", 0, NULL, &cmdline_proc_fops);
 	return 0;

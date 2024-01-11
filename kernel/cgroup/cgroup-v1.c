@@ -542,8 +542,8 @@ static ssize_t __cgroup1_procs_write(struct kernfs_open_file *of,
 	if (ret)
 		goto out_finish;
 
-	multi = (kp_active_mode() == 2) ? 150 : (kp_active_mode() == 3) ? 250 : 100;
-	period = (kp_active_mode() == 2) ? 300 : (kp_active_mode() == 3) ? 500 : 200;
+	multi = (kp_active_mode() == 2) ? 100 : (kp_active_mode() == 3) ? 200 : 50;
+	period = (kp_active_mode() == 2) ? 200 : (kp_active_mode() == 3) ? 300 : 100;
 
 	ret = cgroup_attach_task(cgrp, task, threadgroup);
 

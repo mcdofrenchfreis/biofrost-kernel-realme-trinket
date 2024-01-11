@@ -2180,8 +2180,6 @@ struct task_struct *fork_idle(int cpu)
 	return task;
 }
 
-extern int kp_active_mode(void);
-
 /*
  *  Ok, this is the main fork-routine.
  *
@@ -2198,16 +2196,11 @@ long _do_fork(unsigned long clone_flags,
 	struct task_struct *p;
 	int trace = 0;
 	long nr;
-	unsigned int multi;
-	unsigned int period;
 
-	multi = (kp_active_mode() == 2) ? 25 : (kp_active_mode() == 3) ? 50 : 15;
-	period = (kp_active_mode() == 2) ? 50 : (kp_active_mode() == 3) ? 100 : 30;
-
-	/* Boost DDR bus to the max when userspace launches an app */
+	/* Boost CPU and DDR bus to the max for 175/350 ms when userspace launches an app */
 	if (task_is_zygote(current)) {
-		cpu_input_boost_kick_max(multi);
-		devfreq_boost_kick_max(DEVFREQ_CPU_DDR_BW, period);
+		cpu_input_boost_kick_max(175);
+		devfreq_boost_kick_max(DEVFREQ_CPU_DDR_BW, 350);
 		balance_irqs();
 	}
 

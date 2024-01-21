@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
 # Build Script for Biofrost Kramel
-# Copyright (C) 2022-2023 Mar Yvan D. (xevan)
+# Copyright (C) 2022-2024 Mar Yvan D. (xevan)
 
 # Dependency preparation
 make clean mrproper
@@ -19,8 +19,7 @@ IMAGE=$(pwd)/out/arch/arm64/boot/Image.gz-dtb
 
 # Naming Variables
 MIN_HEAD=$(git rev-parse HEAD | cut -c 1-7)
-export ZIP_NAME="$(cat biofrost-localversion)-${MIN_HEAD}"
-export LOCALVERSION="~$(cat biofrost-localversion)"
+export ZIP_NAME="biofrost-R11.hakone-${MIN_HEAD}"
 
 # GitHub Variables
 export COMMIT_HASH=$(git rev-parse --short HEAD)
@@ -30,8 +29,6 @@ export REPO_URL="https://github.com/mcdofrenchfreis/biofrost-kernel-realme-trink
 # Build Information
 export COMPILER_NAME="$(${TCDIR}/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')"
 export LINKER_NAME="$("${TCDIR}"/bin/ld.lld --version | head -n 1 | sed 's/(compatible with [^)]*)//' | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')"
-export KBUILD_BUILD_USER=xevan
-export KBUILD_BUILD_HOST=THC
 export DEVICE="Realme 5 Series"
 export CODENAME="realme_trinket"
 export BUILD_TYPE="Stable"
@@ -74,7 +71,7 @@ function compile() {
     export CROSS_COMPILE=aarch64-linux-gnu-
     export CLANG_TRIPLE=aarch64-linux-gnu-
     export CROSS_COMPILE_ARM32=arm-linux-gnueabi-
-    make -j$(nproc --all) O=out LLVM=1 LLVM-IAS=1
+    make -j$(nproc --all) O=out CC=clang AR=llvm-ar AS=llvm-as NM=llvm-nm OBJDUMP=llvm-objdump STRIP=llvm-strip \
 
     if ! [ -a "$IMAGE" ] || ! [ -a "$DTBO" ]; then
         finerr
